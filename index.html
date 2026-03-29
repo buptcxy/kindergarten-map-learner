@@ -1973,18 +1973,61 @@
         ];
 
         const cars = [
-            { id: 'bmw', name: '宝马', emoji: '🚙', country: '德国', countryId: 'DE', desc: '宝马是德国豪华汽车品牌，标志是蓝白相间的圆形' },
-            { id: 'mercedes', name: '奔驰', emoji: '🚗', country: '德国', countryId: 'DE', desc: '奔驰是德国汽车品牌，标志是三叉星' },
-            { id: 'toyota', name: '丰田', emoji: '🚘', country: '日本', countryId: 'JP', desc: '丰田是日本最大的汽车公司，生产很多省油的车' },
-            { id: 'ford', name: '福特', emoji: '🚙', country: '美国', countryId: 'US', desc: '福特是美国汽车品牌，标志是蓝色的椭圆形' },
-            { id: 'ferrari', name: '法拉利', emoji: '🏎️', country: '意大利', countryId: 'IT', desc: '法拉利是意大利跑车，红色的车身非常帅气' },
-            { id: 'volkswagen', name: '大众', emoji: '🚗', country: '德国', countryId: 'DE', desc: '大众是德国汽车品牌，甲壳虫汽车很有名' },
-            { id: 'honda', name: '本田', emoji: '🚘', country: '日本', countryId: 'JP', desc: '本田是日本汽车品牌，也生产摩托车' },
-            { id: 'audi', name: '奥迪', emoji: '🚙', country: '德国', countryId: 'DE', desc: '奥迪是德国豪华汽车，标志是四个圆圈连在一起' },
-            { id: 'tesla', name: '特斯拉', emoji: '⚡', country: '美国', countryId: 'US', desc: '特斯拉是美国电动汽车，不用加油，很环保' },
-            { id: 'porsche', name: '保时捷', emoji: '🏎️', country: '德国', countryId: 'DE', desc: '保时捷是德国跑车品牌，速度很快' },
-            { id: 'hyundai', name: '现代', emoji: '🚗', country: '韩国', countryId: 'KR', desc: '现代是韩国汽车品牌，标志是倾斜的H' },
-            { id: 'rolls_royce', name: '劳斯莱斯', emoji: '🚙', country: '英国', countryId: 'GB', desc: '劳斯莱斯是英国超豪华汽车，车头有个小飞天女神' }
+            { id: 'bmw', name: '宝马', country: '德国', countryId: 'DE', desc: '宝马是德国豪华汽车品牌，标志是蓝白相间的圆形，像旋转的螺旋桨' },
+            { id: 'mercedes', name: '奔驰', country: '德国', countryId: 'DE', desc: '奔驰是德国汽车品牌，标志是银色的三叉星，代表陆海空三个方向' },
+            { id: 'audi', name: '奥迪', country: '德国', countryId: 'DE', desc: '奥迪是德国豪华汽车，标志是四个银色圆圈连在一起，代表四家公司合并' },
+            { id: 'volkswagen', name: '大众', country: '德国', countryId: 'DE', desc: '大众是德国汽车品牌，标志是蓝色圆圈里有V和W两个字母' },
+            { id: 'porsche', name: '保时捷', country: '德国', countryId: 'DE', desc: '保时捷是德国跑车品牌，标志是盾牌形状，有一匹跳跃的马' },
+            { id: 'opel', name: '欧宝', country: '德国', countryId: 'DE', desc: '欧宝是德国汽车品牌，标志是银色圆圈里有一道闪电' },
+            { id: 'maybach', name: '迈巴赫', country: '德国', countryId: 'DE', desc: '迈巴赫是德国超豪华汽车，标志是两个重叠的M字母' },
+            { id: 'smart', name: 'Smart', country: '德国', countryId: 'DE', desc: 'Smart是德国小型汽车，标志是银色箭头指向右边' },
+            { id: 'toyota', name: '丰田', country: '日本', countryId: 'JP', desc: '丰田是日本最大的汽车公司，标志是三个椭圆组成的T字形' },
+            { id: 'honda', name: '本田', country: '日本', countryId: 'JP', desc: '本田是日本汽车品牌，标志是银色方框里有个H字母' },
+            { id: 'nissan', name: '日产', country: '日本', countryId: 'JP', desc: '日产是日本汽车品牌，标志是银色圆圈里写着NISSAN' },
+            { id: 'mazda', name: '马自达', country: '日本', countryId: 'JP', desc: '马自达是日本汽车品牌，标志是银色椭圆里有一对翅膀' },
+            { id: 'subaru', name: '斯巴鲁', country: '日本', countryId: 'JP', desc: '斯巴鲁是日本汽车品牌，标志是蓝色背景上有六颗星星' },
+            { id: 'mitsubishi', name: '三菱', country: '日本', countryId: 'JP', desc: '三菱是日本汽车品牌，标志是三个红色菱形连在一起' },
+            { id: 'lexus', name: '雷克萨斯', country: '日本', countryId: 'JP', desc: '雷克萨斯是日本豪华汽车，标志是银色椭圆里有个L字母' },
+            { id: 'suzuki', name: '铃木', country: '日本', countryId: 'JP', desc: '铃木是日本汽车品牌，标志是红色S字母' },
+            { id: 'acura', name: '讴歌', country: '日本', countryId: 'JP', desc: '讴歌是本田的豪华品牌，标志是银色圆规形状' },
+            { id: 'infiniti', name: '英菲尼迪', country: '日本', countryId: 'JP', desc: '英菲尼迪是日产的豪华品牌，标志是银色椭圆指向远方' },
+            { id: 'ford', name: '福特', country: '美国', countryId: 'US', desc: '福特是美国汽车品牌，标志是蓝色椭圆里有Ford字样' },
+            { id: 'chevrolet', name: '雪佛兰', country: '美国', countryId: 'US', desc: '雪佛兰是美国汽车品牌，标志是金色的蝴蝶结形状' },
+            { id: 'cadillac', name: '凯迪拉克', country: '美国', countryId: 'US', desc: '凯迪拉克是美国豪华汽车，标志是盾牌形状的徽章' },
+            { id: 'buick', name: '别克', country: '美国', countryId: 'US', desc: '别克是美国汽车品牌，标志是三个银色盾牌' },
+            { id: 'chrysler', name: '克莱斯勒', country: '美国', countryId: 'US', desc: '克莱斯勒是美国汽车品牌，标志是银色翅膀' },
+            { id: 'jeep', name: 'Jeep', country: '美国', countryId: 'US', desc: 'Jeep是美国越野车品牌，标志是绿色圆圈里写着Jeep' },
+            { id: 'tesla', name: '特斯拉', country: '美国', countryId: 'US', desc: '特斯拉是美国电动汽车，标志是银色的T字母' },
+            { id: 'lincoln', name: '林肯', country: '美国', countryId: 'US', desc: '林肯是美国豪华汽车，标志是银色星星形状' },
+            { id: 'dodge', name: '道奇', country: '美国', countryId: 'US', desc: '道奇是美国汽车品牌，标志是红色羊头' },
+            { id: 'gmc', name: 'GMC', country: '美国', countryId: 'US', desc: 'GMC是美国卡车品牌，标志是红色GMC字母' },
+            { id: 'ferrari', name: '法拉利', country: '意大利', countryId: 'IT', desc: '法拉利是意大利跑车，标志是黑色跃马，背景是黄色' },
+            { id: 'lamborghini', name: '兰博基尼', country: '意大利', countryId: 'IT', desc: '兰博基尼是意大利跑车，标志是金色公牛' },
+            { id: 'maserati', name: '玛莎拉蒂', country: '意大利', countryId: 'IT', desc: '玛莎拉蒂是意大利跑车，标志是银色三叉戟' },
+            { id: 'alfa_romeo', name: '阿尔法·罗密欧', country: '意大利', countryId: 'IT', desc: '阿尔法·罗密欧是意大利汽车，标志是红色十字和绿色蛇' },
+            { id: 'fiat', name: '菲亚特', country: '意大利', countryId: 'IT', desc: '菲亚特是意大利汽车品牌，标志是红色盾牌里有FIAT字样' },
+            { id: 'pagani', name: '帕加尼', country: '意大利', countryId: 'IT', desc: '帕加尼是意大利超跑，标志是银色椭圆里有名字' },
+            { id: 'rolls_royce', name: '劳斯莱斯', country: '英国', countryId: 'GB', desc: '劳斯莱斯是英国超豪华汽车，标志是银色双R重叠' },
+            { id: 'bentley', name: '宾利', country: '英国', countryId: 'GB', desc: '宾利是英国豪华汽车，标志是银色翅膀中间有B字母' },
+            { id: 'aston_martin', name: '阿斯顿·马丁', country: '英国', countryId: 'GB', desc: '阿斯顿·马丁是英国跑车，标志是银色翅膀' },
+            { id: 'jaguar', name: '捷豹', country: '英国', countryId: 'GB', desc: '捷豹是英国汽车品牌，标志是一只跳跃的美洲豹' },
+            { id: 'land_rover', name: '路虎', country: '英国', countryId: 'GB', desc: '路虎是英国越野车品牌，标志是绿色椭圆里写着名字' },
+            { id: 'mini', name: 'Mini', country: '英国', countryId: 'GB', desc: 'Mini是英国小型汽车，标志是银色翅膀有Mini字样' },
+            { id: 'mclaren', name: '迈凯伦', country: '英国', countryId: 'GB', desc: '迈凯伦是英国超跑，标志是银色弧形像翅膀' },
+            { id: 'lotus', name: '莲花', country: '英国', countryId: 'GB', desc: '莲花是英国跑车品牌，标志是黄色圆圈里有名字' },
+            { id: 'peugeot', name: '标致', country: '法国', countryId: 'FR', desc: '标致是法国汽车品牌，标志是银色狮子' },
+            { id: 'citroen', name: '雪铁龙', country: '法国', countryId: 'FR', desc: '雪铁龙是法国汽车品牌，标志是银色双人字' },
+            { id: 'renault', name: '雷诺', country: '法国', countryId: 'FR', desc: '雷诺是法国汽车品牌，标志是银色菱形' },
+            { id: 'bugatti', name: '布加迪', country: '法国', countryId: 'FR', desc: '布加迪是法国超跑，标志是红色椭圆里有EB字母' },
+            { id: 'hyundai', name: '现代', country: '韩国', countryId: 'KR', desc: '现代是韩国汽车品牌，标志是银色椭圆里有倾斜的H' },
+            { id: 'kia', name: '起亚', country: '韩国', countryId: 'KR', desc: '起亚是韩国汽车品牌，标志是红色椭圆里有KIA字样' },
+            { id: 'genesis', name: '捷尼赛思', country: '韩国', countryId: 'KR', desc: '捷尼赛思是现代的豪华品牌，标志是银色翅膀' },
+            { id: 'volvo', name: '沃尔沃', country: '瑞典', countryId: 'SE', desc: '沃尔沃是瑞典汽车品牌，标志是银色圆圈有箭头指向右上方' },
+            { id: 'koenigsegg', name: '柯尼塞格', country: '瑞典', countryId: 'SE', desc: '柯尼塞格是瑞典超跑，标志是金色盾牌形状' },
+            { id: 'byd', name: '比亚迪', country: '中国', countryId: 'CN', desc: '比亚迪是中国电动汽车品牌，标志是红白椭圆' },
+            { id: 'geely', name: '吉利', country: '中国', countryId: 'CN', desc: '吉利是中国汽车品牌，标志是蓝色盾牌形状' },
+            { id: 'hongqi', name: '红旗', country: '中国', countryId: 'CN', desc: '红旗是中国豪华汽车，标志是红色旗帜' },
+            { id: 'nio', name: '蔚来', country: '中国', countryId: 'CN', desc: '蔚来是中国电动汽车，标志是蓝色天空和地平线' }
         ];
 
         const categoryData = {
@@ -2281,6 +2324,67 @@
             document.getElementById('carCount').textContent = `${cars.length}个车标`;
         }
 
+        function getCarLogo(carId) {
+            const logos = {
+                bmw: `<svg viewBox="0 0 100 100" width="56" height="56"><circle cx="50" cy="50" r="48" fill="#fff" stroke="#000" stroke-width="2"/><path d="M50 2 A48 48 0 0 1 50 98" fill="#0066b1"/><path d="M50 2 A48 48 0 0 0 50 98" fill="#fff"/><path d="M50 50 A48 48 0 0 1 98 50" fill="#fff"/><path d="M50 50 A48 48 0 0 0 2 50" fill="#0066b1"/><circle cx="50" cy="50" r="48" fill="none" stroke="#000" stroke-width="2"/></svg>`,
+                mercedes: `<svg viewBox="0 0 100 100" width="56" height="56"><circle cx="50" cy="50" r="45" fill="#fff" stroke="#000" stroke-width="2"/><path d="M50 10 L50 50 L20 85" fill="none" stroke="#000" stroke-width="4"/><path d="M50 50 L80 85" fill="none" stroke="#000" stroke-width="4"/><circle cx="50" cy="50" r="8" fill="#000"/></svg>`,
+                audi: `<svg viewBox="0 0 140 100" width="70" height="56"><circle cx="25" cy="50" r="22" fill="none" stroke="#000" stroke-width="4"/><circle cx="50" cy="50" r="22" fill="none" stroke="#000" stroke-width="4"/><circle cx="75" cy="50" r="22" fill="none" stroke="#000" stroke-width="4"/><circle cx="100" cy="50" r="22" fill="none" stroke="#000" stroke-width="4"/></svg>`,
+                volkswagen: `<svg viewBox="0 0 100 100" width="56" height="56"><circle cx="50" cy="50" r="45" fill="#0066cc" stroke="#fff" stroke-width="2"/><path d="M30 25 L50 75 L70 25" fill="none" stroke="#fff" stroke-width="6"/><path d="M35 35 L65 35" fill="none" stroke="#fff" stroke-width="4"/></svg>`,
+                porsche: `<svg viewBox="0 0 100 100" width="56" height="56"><rect x="10" y="10" width="80" height="80" rx="5" fill="#c00" stroke="#000" stroke-width="2"/><path d="M50 20 L55 40 L75 40 L60 52 L65 72 L50 60 L35 72 L40 52 L25 40 L45 40 Z" fill="#000"/></svg>`,
+                toyota: `<svg viewBox="0 0 100 100" width="56" height="56"><ellipse cx="50" cy="50" rx="45" ry="30" fill="none" stroke="#000" stroke-width="3"/><ellipse cx="50" cy="50" rx="20" ry="30" fill="none" stroke="#000" stroke-width="3"/><ellipse cx="50" cy="50" rx="45" ry="12" fill="none" stroke="#000" stroke-width="3"/></svg>`,
+                honda: `<svg viewBox="0 0 100 100" width="56" height="56"><rect x="15" y="20" width="70" height="60" rx="5" fill="#cc0000" stroke="#000" stroke-width="2"/><path d="M30 35 L50 75 L70 35" fill="#fff" stroke="#fff" stroke-width="4"/></svg>`,
+                nissan: `<svg viewBox="0 0 100 100" width="56" height="56"><circle cx="50" cy="50" r="40" fill="#c00" stroke="#000" stroke-width="2"/><rect x="25" y="40" width="50" height="20" fill="#fff" rx="3"/><text x="50" y="55" text-anchor="middle" font-size="12" font-weight="bold" fill="#c00">NISSAN</text></svg>`,
+                ford: `<svg viewBox="0 0 120 100" width="60" height="56"><ellipse cx="60" cy="50" rx="55" ry="35" fill="#003478" stroke="#fff" stroke-width="2"/><text x="60" y="58" text-anchor="middle" font-size="24" font-weight="bold" fill="#fff" font-style="italic">Ford</text></svg>`,
+                ferrari: `<svg viewBox="0 0 100 100" width="56" height="56"><rect x="10" y="10" width="80" height="80" fill="#ffd700" stroke="#000" stroke-width="2"/><path d="M50 15 L45 45 L20 50 L45 55 L50 85 L55 55 L80 50 L55 45 Z" fill="#000"/></svg>`,
+                lamborghini: `<svg viewBox="0 0 100 100" width="56" height="56"><polygon points="50,5 95,50 50,95 5,50" fill="#ffd700" stroke="#000" stroke-width="2"/><path d="M50 25 L50 75 M35 40 L65 40" fill="none" stroke="#000" stroke-width="4"/></svg>`,
+                tesla: `<svg viewBox="0 0 100 100" width="56" height="56"><path d="M50 10 L20 90 L50 70 L80 90 Z" fill="#cc0000" stroke="#000" stroke-width="2"/></svg>`,
+                rolls_royce: `<svg viewBox="0 0 100 100" width="56" height="56"><circle cx="50" cy="50" r="45" fill="#fff" stroke="#000" stroke-width="2"/><text x="50" y="55" text-anchor="middle" font-size="28" font-weight="bold" fill="#000">RR</text></svg>`,
+                bentley: `<svg viewBox="0 0 100 100" width="56" height="56"><ellipse cx="50" cy="30" rx="35" ry="20" fill="#ccc" stroke="#000" stroke-width="2"/><ellipse cx="50" cy="70" rx="35" ry="20" fill="#ccc" stroke="#000" stroke-width="2"/><circle cx="50" cy="50" r="15" fill="#ccc" stroke="#000" stroke-width="2"/><text x="50" y="55" text-anchor="middle" font-size="16" font-weight="bold" fill="#000">B</text></svg>`,
+                chevrolet: `<svg viewBox="0 0 100 100" width="56" height="56"><path d="M50 10 L60 35 L90 35 L65 55 L75 85 L50 65 L25 85 L35 55 L10 35 L40 35 Z" fill="#ffd700" stroke="#000" stroke-width="2"/></svg>`,
+                hyundai: `<svg viewBox="0 0 100 100" width="56" height="56"><ellipse cx="50" cy="50" rx="40" ry="30" fill="#003d99" stroke="#000" stroke-width="2"/><path d="M30 35 L50 65 L70 35" fill="none" stroke="#fff" stroke-width="5"/></svg>`,
+                kia: `<svg viewBox="0 0 100 100" width="56" height="56"><ellipse cx="50" cy="50" rx="45" ry="30" fill="#c00" stroke="#000" stroke-width="2"/><text x="50" y="58" text-anchor="middle" font-size="20" font-weight="bold" fill="#fff">KIA</text></svg>`,
+                volvo: `<svg viewBox="0 0 100 100" width="56" height="56"><circle cx="50" cy="50" r="40" fill="#003d7a" stroke="#000" stroke-width="2"/><path d="M50 10 L70 10" stroke="#fff" stroke-width="4"/><path d="M50 10 L50 50 L80 80" stroke="#fff" stroke-width="4" fill="none"/><text x="50" y="60" text-anchor="middle" font-size="14" font-weight="bold" fill="#fff">VOLVO</text></svg>`,
+                lexus: `<svg viewBox="0 0 100 100" width="56" height="56"><ellipse cx="50" cy="50" rx="40" ry="30" fill="#ccc" stroke="#000" stroke-width="2"/><path d="M35 40 L50 60 L65 40" fill="none" stroke="#000" stroke-width="4"/></svg>`,
+                mazda: `<svg viewBox="0 0 100 100" width="56" height="56"><ellipse cx="50" cy="50" rx="40" ry="30" fill="#ccc" stroke="#000" stroke-width="2"/><path d="M30 40 Q50 20 70 40 Q50 80 30 40" fill="none" stroke="#000" stroke-width="3"/></svg>`,
+                subaru: `<svg viewBox="0 0 100 100" width="56" height="56"><ellipse cx="50" cy="50" rx="45" ry="35" fill="#013a75" stroke="#000" stroke-width="2"/><circle cx="40" cy="40" r="6" fill="#fff"/><circle cx="60" cy="40" r="6" fill="#fff"/><circle cx="30" cy="55" r="6" fill="#fff"/><circle cx="50" cy="55" r="6" fill="#fff"/><circle cx="70" cy="55" r="6" fill="#fff"/><circle cx="50" cy="70" r="6" fill="#fff"/></svg>`,
+                mitsubishi: `<svg viewBox="0 0 100 100" width="56" height="56"><path d="M50 10 L65 50 L50 50 L35 50 Z" fill="#c00" stroke="#000" stroke-width="1"/><path d="M35 50 L20 90 L50 50 Z" fill="#c00" stroke="#000" stroke-width="1"/><path d="M65 50 L80 90 L50 50 Z" fill="#c00" stroke="#000" stroke-width="1"/></svg>`,
+                peugeot: `<svg viewBox="0 0 100 100" width="56" height="56"><path d="M50 10 Q70 30 70 50 Q70 80 50 90 Q30 80 30 50 Q30 30 50 10" fill="#fff" stroke="#000" stroke-width="2"/><circle cx="50" cy="35" r="8" fill="#000"/></svg>`,
+                citroen: `<svg viewBox="0 0 100 100" width="56" height="56"><path d="M30 30 L50 80 L70 30" fill="none" stroke="#cc0000" stroke-width="8"/><path d="M20 50 L50 100 L80 50" fill="none" stroke="#cc0000" stroke-width="8"/></svg>`,
+                renault: `<svg viewBox="0 0 100 100" width="56" height="56"><polygon points="50,5 90,50 50,95 10,50" fill="#ffd700" stroke="#000" stroke-width="2"/></svg>`,
+                bugatti: `<svg viewBox="0 0 100 100" width="56" height="56"><ellipse cx="50" cy="50" rx="45" ry="35" fill="#c00" stroke="#000" stroke-width="2"/><text x="50" y="58" text-anchor="middle" font-size="20" font-weight="bold" fill="#fff">EB</text></svg>`,
+                jeep: `<svg viewBox="0 0 100 100" width="56" height="56"><rect x="10" y="20" width="80" height="60" rx="10" fill="#006400" stroke="#000" stroke-width="2"/><text x="50" y="58" text-anchor="middle" font-size="22" font-weight="bold" fill="#fff">JEEP</text></svg>`,
+                cadillac: `<svg viewBox="0 0 100 100" width="56" height="56"><polygon points="50,10 90,30 90,70 50,90 10,70 10,30" fill="#000" stroke="#fff" stroke-width="2"/><rect x="30" y="35" width="40" height="30" fill="#ffd700"/><rect x="35" y="40" width="30" height="8" fill="#c00"/><rect x="35" y="52" width="30" height="8" fill="#00f"/></svg>`,
+                buick: `<svg viewBox="0 0 100 100" width="56" height="56"><circle cx="50" cy="50" r="45" fill="#fff" stroke="#000" stroke-width="2"/><polygon points="30,30 50,20 70,30 70,70 50,80 30,70" fill="#c00" stroke="#000" stroke-width="1"/><polygon points="35,35 50,28 65,35 65,65 50,72 35,65" fill="#fff" stroke="#000" stroke-width="1"/><polygon points="40,40 50,35 60,40 60,60 50,65 40,60" fill="#c00" stroke="#000" stroke-width="1"/></svg>`,
+                chrysler: `<svg viewBox="0 0 100 100" width="56" height="56"><ellipse cx="50" cy="25" rx="30" ry="15" fill="#ccc" stroke="#000" stroke-width="2"/><ellipse cx="50" cy="50" rx="30" ry="15" fill="#ccc" stroke="#000" stroke-width="2"/><ellipse cx="50" cy="75" rx="30" ry="15" fill="#ccc" stroke="#000" stroke-width="2"/></svg>`,
+                dodge: `<svg viewBox="0 0 100 100" width="56" height="56"><circle cx="50" cy="50" r="40" fill="#c00" stroke="#000" stroke-width="2"/><path d="M30 45 Q50 30 70 45 L70 55 Q50 70 30 55 Z" fill="#fff" stroke="#000" stroke-width="1"/></svg>`,
+                gmc: `<svg viewBox="0 0 100 100" width="56" height="56"><rect x="10" y="25" width="80" height="50" rx="5" fill="#c00" stroke="#000" stroke-width="2"/><text x="50" y="58" text-anchor="middle" font-size="24" font-weight="bold" fill="#fff">GMC</text></svg>`,
+                lincoln: `<svg viewBox="0 0 100 100" width="56" height="56"><polygon points="50,10 70,30 70,70 50,90 30,70 30,30" fill="#ccc" stroke="#000" stroke-width="2"/><rect x="40" y="35" width="20" height="30" fill="#000"/></svg>`,
+                maserati: `<svg viewBox="0 0 100 100" width="56" height="56"><ellipse cx="50" cy="50" rx="45" ry="35" fill="#003399" stroke="#000" stroke-width="2"/><path d="M50 25 L50 75 M35 40 L65 40" stroke="#fff" stroke-width="5"/></svg>`,
+                alfa_romeo: `<svg viewBox="0 0 100 100" width="56" height="56"><circle cx="50" cy="50" r="45" fill="#fff" stroke="#000" stroke-width="2"/><path d="M50 5 L50 50 L5 50" fill="#c00"/><path d="M50 50 L50 95 L95 50" fill="#0a0"/><path d="M55 35 Q65 40 60 50 Q55 45 55 35" fill="#0a0"/></svg>`,
+                fiat: `<svg viewBox="0 0 100 100" width="56" height="56"><rect x="15" y="25" width="70" height="50" rx="5" fill="#c00" stroke="#000" stroke-width="2"/><text x="50" y="58" text-anchor="middle" font-size="18" font-weight="bold" fill="#fff">FIAT</text></svg>`,
+                jaguar: `<svg viewBox="0 0 120 100" width="60" height="56"><ellipse cx="60" cy="50" rx="55" ry="35" fill="#ccc" stroke="#000" stroke-width="2"/><path d="M20 50 Q40 30 60 50 Q80 30 100 50" fill="none" stroke="#000" stroke-width="3"/><circle cx="35" cy="45" r="5" fill="#000"/></svg>`,
+                land_rover: `<svg viewBox="0 0 120 100" width="60" height="56"><ellipse cx="60" cy="50" rx="55" ry="35" fill="#006400" stroke="#000" stroke-width="2"/><text x="60" y="45" text-anchor="middle" font-size="10" fill="#fff">LAND</text><text x="60" y="60" text-anchor="middle" font-size="12" fill="#fff">ROVER</text></svg>`,
+                mini: `<svg viewBox="0 0 100 100" width="56" height="56"><circle cx="50" cy="50" r="45" fill="#fff" stroke="#000" stroke-width="2"/><ellipse cx="50" cy="25" rx="25" ry="12" fill="#c00" stroke="#000" stroke-width="1"/><text x="50" y="60" text-anchor="middle" font-size="16" font-weight="bold" fill="#000">MINI</text></svg>`,
+                lotus: `<svg viewBox="0 0 100 100" width="56" height="56"><circle cx="50" cy="50" r="45" fill="#ffd700" stroke="#000" stroke-width="2"/><text x="50" y="58" text-anchor="middle" font-size="14" font-weight="bold" fill="#000">LOTUS</text></svg>`,
+                aston_martin: `<svg viewBox="0 0 100 100" width="56" height="56"><ellipse cx="50" cy="25" rx="35" ry="15" fill="#006400" stroke="#000" stroke-width="2"/><ellipse cx="50" cy="50" rx="35" ry="15" fill="#006400" stroke="#000" stroke-width="2"/><ellipse cx="50" cy="75" rx="35" ry="15" fill="#006400" stroke="#000" stroke-width="2"/></svg>`,
+                mclaren: `<svg viewBox="0 0 100 100" width="56" height="56"><ellipse cx="50" cy="50" rx="45" ry="30" fill="#c00" stroke="#000" stroke-width="2"/><path d="M20 50 Q50 30 80 50" fill="none" stroke="#fff" stroke-width="4"/></svg>`,
+                suzuki: `<svg viewBox="0 0 100 100" width="56" height="56"><rect x="20" y="20" width="60" height="60" fill="#c00" stroke="#000" stroke-width="2"/><text x="50" y="58" text-anchor="middle" font-size="28" font-weight="bold" fill="#fff">S</text></svg>`,
+                opel: `<svg viewBox="0 0 100 100" width="56" height="56"><circle cx="50" cy="50" r="40" fill="#fff" stroke="#000" stroke-width="2"/><path d="M30 50 L70 50 M50 30 L50 70" stroke="#ffc20e" stroke-width="6"/></svg>`,
+                maybach: `<svg viewBox="0 0 100 100" width="56" height="56"><ellipse cx="50" cy="50" rx="45" ry="30" fill="#ccc" stroke="#000" stroke-width="2"/><text x="50" y="58" text-anchor="middle" font-size="24" font-weight="bold" fill="#000">MM</text></svg>`,
+                smart: `<svg viewBox="0 0 100 100" width="56" height="56"><circle cx="50" cy="50" r="40" fill="#000" stroke="#000" stroke-width="2"/><path d="M30 50 L70 50" stroke="#ffc20e" stroke-width="8"/></svg>`,
+                acura: `<svg viewBox="0 0 100 100" width="56" height="56"><ellipse cx="50" cy="50" rx="40" ry="30" fill="#ccc" stroke="#000" stroke-width="2"/><path d="M35 35 L50 65 L65 35" fill="none" stroke="#000" stroke-width="4"/><path d="M50 35 L50 65" stroke="#000" stroke-width="4"/></svg>`,
+                infiniti: `<svg viewBox="0 0 100 100" width="56" height="56"><ellipse cx="50" cy="50" rx="40" ry="30" fill="#ccc" stroke="#000" stroke-width="2"/><path d="M30 50 Q50 30 70 50" fill="none" stroke="#000" stroke-width="4"/></svg>`,
+                genesis: `<svg viewBox="0 0 100 100" width="56" height="56"><ellipse cx="50" cy="25" rx="30" ry="12" fill="#ccc" stroke="#000" stroke-width="2"/><ellipse cx="50" cy="50" rx="30" ry="12" fill="#ccc" stroke="#000" stroke-width="2"/><ellipse cx="50" cy="75" rx="30" ry="12" fill="#ccc" stroke="#000" stroke-width="2"/></svg>`,
+                koenigsegg: `<svg viewBox="0 0 100 100" width="56" height="56"><polygon points="50,10 90,30 90,70 50,90 10,70 10,30" fill="#ffd700" stroke="#000" stroke-width="2"/><text x="50" y="55" text-anchor="middle" font-size="10" fill="#000">KOENIGSEGG</text></svg>`,
+                pagani: `<svg viewBox="0 0 100 100" width="56" height="56"><ellipse cx="50" cy="50" rx="45" ry="30" fill="#ccc" stroke="#000" stroke-width="2"/><text x="50" y="55" text-anchor="middle" font-size="12" fill="#000">PAGANI</text></svg>`,
+                byd: `<svg viewBox="0 0 100 100" width="56" height="56"><ellipse cx="50" cy="50" rx="45" ry="30" fill="#c00" stroke="#000" stroke-width="2"/><text x="50" y="58" text-anchor="middle" font-size="20" font-weight="bold" fill="#fff">BYD</text></svg>`,
+                geely: `<svg viewBox="0 0 100 100" width="56" height="56"><polygon points="50,15 85,35 85,65 50,85 15,65 15,35" fill="#003d7a" stroke="#000" stroke-width="2"/><rect x="35" y="40" width="30" height="20" fill="#fff"/></svg>`,
+                hongqi: `<svg viewBox="0 0 100 100" width="56" height="56"><rect x="20" y="30" width="60" height="40" fill="#c00" stroke="#000" stroke-width="2"/><path d="M50 30 L50 10 L40 15 L50 20 L60 15 L50 10" fill="#c00" stroke="#000" stroke-width="1"/></svg>`,
+                nio: `<svg viewBox="0 0 100 100" width="56" height="56"><path d="M20 70 L50 30 L80 70" fill="none" stroke="#00a0e9" stroke-width="4"/><path d="M30 70 L50 40 L70 70" fill="none" stroke="#00a0e9" stroke-width="4"/></svg>`
+            };
+            return logos[carId] || `<svg viewBox="0 0 100 100" width="56" height="56"><circle cx="50" cy="50" r="40" fill="#ccc" stroke="#000" stroke-width="2"/><text x="50" y="58" text-anchor="middle" font-size="12">🚗</text></svg>`;
+        }
+
         function showCategory(category) {
             const catData = categoryData[category];
             if (!catData) return;
@@ -2288,13 +2392,24 @@
             document.getElementById('categoryTitle').textContent = catData.title;
             
             const content = document.getElementById('categoryContent');
-            content.innerHTML = catData.data.map(item => `
-                <div class="item-card" data-id="${item.id}" data-category="${category}">
-                    <div class="item-emoji">${item.emoji}</div>
-                    <div class="item-name">${item.name}</div>
-                    <div class="item-country">📍 ${item.country}</div>
-                </div>
-            `).join('');
+            
+            if (category === 'cars') {
+                content.innerHTML = catData.data.map(item => `
+                    <div class="item-card" data-id="${item.id}" data-category="${category}">
+                        <div class="item-emoji">${getCarLogo(item.id)}</div>
+                        <div class="item-name">${item.name}</div>
+                        <div class="item-country">📍 ${item.country}</div>
+                    </div>
+                `).join('');
+            } else {
+                content.innerHTML = catData.data.map(item => `
+                    <div class="item-card" data-id="${item.id}" data-category="${category}">
+                        <div class="item-emoji">${item.emoji}</div>
+                        <div class="item-name">${item.name}</div>
+                        <div class="item-country">📍 ${item.country}</div>
+                    </div>
+                `).join('');
+            }
             
             content.querySelectorAll('.item-card').forEach(card => {
                 card.addEventListener('click', () => {
@@ -2314,10 +2429,13 @@
                 existingCard.remove();
             }
             
+            const isCar = cars.find(c => c.id === item.id);
+            const iconHtml = isCar ? getCarLogo(item.id) : item.emoji;
+            
             const card = document.createElement('div');
             card.className = 'item-detail-card';
             card.innerHTML = `
-                <div class="item-detail-emoji">${item.emoji}</div>
+                <div class="item-detail-emoji">${iconHtml}</div>
                 <div class="item-detail-name">${item.name}</div>
                 <div class="item-detail-country">📍 ${item.country}</div>
                 <div class="item-detail-desc">${item.desc}</div>
