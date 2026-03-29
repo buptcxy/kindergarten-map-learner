@@ -1647,6 +1647,8 @@
             card.classList.add('show');
             overlay.classList.add('show');
             
+            speakCountryInfo(country);
+            
             if (!countriesLearned.includes(country.id)) {
                 countriesLearned.push(country.id);
                 localStorage.setItem('countriesLearned', JSON.stringify(countriesLearned));
@@ -1659,8 +1661,25 @@
             document.getElementById('overlay').classList.remove('show');
         }
 
+        function speakCountryInfo(country) {
+            if ('speechSynthesis' in window) {
+                speechSynthesis.cancel();
+                const continentName = continentNames[country.continent] || country.continent;
+                const text = `${country.name}，首都${country.capital}，${continentName}`;
+                const utterance = new SpeechSynthesisUtterance(text);
+                utterance.lang = 'zh-CN';
+                utterance.rate = 0.9;
+                speechSynthesis.speak(utterance);
+                
+                const btn = document.getElementById('speakBtn');
+                btn.classList.add('speaking');
+                utterance.onend = () => btn.classList.remove('speaking');
+            }
+        }
+
         function speakCountryName(countryName) {
             if ('speechSynthesis' in window) {
+                speechSynthesis.cancel();
                 const utterance = new SpeechSynthesisUtterance(countryName);
                 utterance.lang = 'zh-CN';
                 utterance.rate = 0.8;
