@@ -1564,6 +1564,24 @@
             updateStarsDisplay();
             renderLearnView();
             updateProfileStats();
+            initSpeechSynthesis();
+        }
+
+        function initSpeechSynthesis() {
+            if ('speechSynthesis' in window) {
+                const warmup = new SpeechSynthesisUtterance('');
+                warmup.lang = 'zh-CN';
+                warmup.volume = 0;
+                speechSynthesis.speak(warmup);
+                
+                speechSynthesis.getVoices();
+                
+                if (speechSynthesis.getVoices().length === 0) {
+                    speechSynthesis.onvoiceschanged = () => {
+                        speechSynthesis.getVoices();
+                    };
+                }
+            }
         }
 
         async function loadMap() {
@@ -1662,32 +1680,104 @@
         }
 
         function speakCountryInfo(country) {
-            if ('speechSynthesis' in window) {
-                speechSynthesis.cancel();
-                const continentName = continentNames[country.continent] || country.continent;
-                const text = `${country.name}，首都${country.capital}，${continentName}`;
-                const utterance = new SpeechSynthesisUtterance(text);
-                utterance.lang = 'zh-CN';
-                utterance.rate = 0.9;
-                speechSynthesis.speak(utterance);
+            if (!('speechSynthesis' in window)) {
+                alert('您的浏览器不支持语音功能');
+                return;
+            }
+            
+            speechSynthesis.cancel();
+            
+            const continentName = continentNames[country.continent] || country.continent;
+            const text = `${country.name}，首都${country.capital}，${continentName}`;
+            const utterance = new SpeechSynthesisUtterance(text);
+            utterance.lang = 'zh-CN';
+            utterance.rate = 0.9;
+            utterance.volume = 1;
+            utterance.pitch = 1;
+            
+            const btn = document.getElementById('speakBtn');
+            btn.classList.add('speaking');
+            
+            utterance.onend = () => {
+                btn.classList.remove('speaking');
+            };
+            
+            utterance.onerror = (event) => {
+                console.error('语音播放错误:', event.error);
+                btn.classList.remove('speaking');
+            };
+            
+            const trySpeak = () => {
+                const voices = speechSynthesis.getVoices();
+                const zhVoice = voices.find(v => v.lang.includes('zh'));
+                if (zhVoice) {
+                    utterance.voice = zhVoice;
+                }
                 
-                const btn = document.getElementById('speakBtn');
-                btn.classList.add('speaking');
-                utterance.onend = () => btn.classList.remove('speaking');
+                if (speechSynthesis.speaking) {
+                    speechSynthesis.cancel();
+                }
+                
+                setTimeout(() => {
+                    speechSynthesis.speak(utterance);
+                }, 100);
+            };
+            
+            if (speechSynthesis.getVoices().length > 0) {
+                trySpeak();
+            } else {
+                speechSynthesis.onvoiceschanged = trySpeak;
+                setTimeout(trySpeak, 500);
             }
         }
 
         function speakCountryName(countryName) {
-            if ('speechSynthesis' in window) {
-                speechSynthesis.cancel();
-                const utterance = new SpeechSynthesisUtterance(countryName);
-                utterance.lang = 'zh-CN';
-                utterance.rate = 0.8;
-                speechSynthesis.speak(utterance);
+            if (!('speechSynthesis' in window)) {
+                alert('您的浏览器不支持语音功能');
+                return;
+            }
+            
+            speechSynthesis.cancel();
+            
+            const utterance = new SpeechSynthesisUtterance(countryName);
+            utterance.lang = 'zh-CN';
+            utterance.rate = 0.8;
+            utterance.volume = 1;
+            utterance.pitch = 1;
+            
+            const btn = document.getElementById('speakBtn');
+            btn.classList.add('speaking');
+            
+            utterance.onend = () => {
+                btn.classList.remove('speaking');
+            };
+            
+            utterance.onerror = (event) => {
+                console.error('语音播放错误:', event.error);
+                btn.classList.remove('speaking');
+            };
+            
+            const trySpeak = () => {
+                const voices = speechSynthesis.getVoices();
+                const zhVoice = voices.find(v => v.lang.includes('zh'));
+                if (zhVoice) {
+                    utterance.voice = zhVoice;
+                }
                 
-                const btn = document.getElementById('speakBtn');
-                btn.classList.add('speaking');
-                utterance.onend = () => btn.classList.remove('speaking');
+                if (speechSynthesis.speaking) {
+                    speechSynthesis.cancel();
+                }
+                
+                setTimeout(() => {
+                    speechSynthesis.speak(utterance);
+                }, 100);
+            };
+            
+            if (speechSynthesis.getVoices().length > 0) {
+                trySpeak();
+            } else {
+                speechSynthesis.onvoiceschanged = trySpeak;
+                setTimeout(trySpeak, 500);
             }
         }
 
