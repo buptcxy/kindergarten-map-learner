@@ -1995,8 +1995,11 @@
             document.getElementById('overlay').addEventListener('click', hideCountryCard);
             
             document.getElementById('speakBtn').addEventListener('click', () => {
-                const countryName = document.getElementById('cardName').textContent;
-                speakCountryName(countryName);
+                const countryId = countries.find(c => c.name === document.getElementById('cardName').textContent)?.id;
+                const country = countries.find(c => c.id === countryId);
+                if (country) {
+                    speakCountryInfo(country);
+                }
             });
             
             document.getElementById('zoomIn').addEventListener('click', () => {
