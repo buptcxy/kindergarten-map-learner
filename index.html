@@ -1189,6 +1189,75 @@
             .countries-grid {
                 grid-template-columns: 1fr;
             }
+
+            .discover-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 12px;
+            }
+
+            .discover-card {
+                padding: 20px 16px;
+            }
+
+            .discover-icon {
+                font-size: 48px;
+            }
+
+            .discover-name {
+                font-size: 18px;
+            }
+
+            .discover-count {
+                font-size: 12px;
+            }
+
+            .discover-title {
+                font-size: 28px;
+                margin-bottom: 20px;
+            }
+
+            .category-content {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 12px;
+            }
+
+            .item-card {
+                padding: 14px;
+            }
+
+            .item-emoji {
+                font-size: 44px;
+            }
+
+            .item-name {
+                font-size: 16px;
+            }
+
+            .item-country {
+                font-size: 12px;
+            }
+
+            .item-detail-card {
+                width: 90%;
+                max-width: 300px;
+                padding: 20px;
+            }
+
+            .item-detail-emoji {
+                font-size: 60px;
+            }
+
+            .item-detail-name {
+                font-size: 24px;
+            }
+
+            .item-detail-country {
+                font-size: 16px;
+            }
+
+            .item-detail-desc {
+                font-size: 14px;
+            }
         }
 
         @media (max-width: 360px) {
@@ -1256,6 +1325,207 @@
             font-size: 24px;
             color: var(--primary);
         }
+
+        .discover-view {
+            display: none;
+            padding: 24px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .discover-view.active {
+            display: block;
+        }
+
+        .discover-title {
+            font-size: 36px;
+            text-align: center;
+            color: var(--primary);
+            margin-bottom: 32px;
+        }
+
+        .discover-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+        }
+
+        .discover-card {
+            background: var(--text-white);
+            border-radius: 24px;
+            padding: 32px 24px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: var(--shadow);
+        }
+
+        .discover-card:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--shadow-hover);
+        }
+
+        .discover-icon {
+            font-size: 64px;
+            margin-bottom: 16px;
+        }
+
+        .discover-name {
+            font-family: 'ZCOOL KuaiLe', cursive;
+            font-size: 24px;
+            color: var(--text-dark);
+            margin-bottom: 8px;
+        }
+
+        .discover-count {
+            font-size: 14px;
+            color: var(--primary);
+        }
+
+        .category-view {
+            display: none;
+            padding: 24px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .category-view.active {
+            display: block;
+        }
+
+        .category-header {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+
+        .back-btn {
+            padding: 10px 20px;
+            border: none;
+            background: var(--bg-mint);
+            border-radius: 50px;
+            font-family: 'ZCOOL KuaiLe', cursive;
+            font-size: 16px;
+            color: var(--text-dark);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .back-btn:hover {
+            background: var(--primary);
+            color: var(--text-white);
+        }
+
+        .category-title {
+            font-size: 32px;
+            color: var(--primary);
+        }
+
+        .category-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            gap: 16px;
+        }
+
+        .item-card {
+            background: var(--text-white);
+            border-radius: 20px;
+            padding: 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+
+        .item-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow);
+        }
+
+        .item-emoji {
+            font-size: 56px;
+            margin-bottom: 12px;
+        }
+
+        .item-name {
+            font-family: 'ZCOOL KuaiLe', cursive;
+            font-size: 18px;
+            color: var(--text-dark);
+            margin-bottom: 6px;
+        }
+
+        .item-country {
+            font-size: 14px;
+            color: var(--primary);
+        }
+
+        .item-detail-card {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0);
+            width: 340px;
+            background: var(--text-white);
+            border-radius: 24px;
+            padding: 24px;
+            box-shadow: var(--shadow-hover);
+            z-index: 200;
+            opacity: 0;
+            transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        }
+
+        .item-detail-card.show {
+            transform: translate(-50%, -50%) scale(1);
+            opacity: 1;
+        }
+
+        .item-detail-emoji {
+            font-size: 80px;
+            text-align: center;
+            margin-bottom: 16px;
+        }
+
+        .item-detail-name {
+            font-family: 'ZCOOL KuaiLe', cursive;
+            font-size: 28px;
+            text-align: center;
+            color: var(--text-dark);
+            margin-bottom: 8px;
+        }
+
+        .item-detail-country {
+            text-align: center;
+            font-size: 18px;
+            color: var(--primary);
+            margin-bottom: 12px;
+        }
+
+        .item-detail-desc {
+            text-align: center;
+            font-size: 16px;
+            color: var(--text-dark);
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        .item-detail-speak {
+            width: 100%;
+            padding: 14px;
+            border: none;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--aux-green) 100%);
+            border-radius: 50px;
+            font-family: 'ZCOOL KuaiLe', cursive;
+            font-size: 18px;
+            color: var(--text-white);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .item-detail-speak:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(78,205,196,0.4);
+        }
     </style>
 </head>
 <body>
@@ -1322,6 +1592,40 @@
 
         <div id="learnView" class="learn-view">
             <div class="learn-section" id="learnContent"></div>
+        </div>
+
+        <div id="discoverView" class="discover-view">
+            <h1 class="discover-title title-font">🔍 发现世界</h1>
+            <div class="discover-grid">
+                <div class="discover-card" data-category="animals">
+                    <div class="discover-icon">🐼</div>
+                    <div class="discover-name">特色动物</div>
+                    <div class="discover-count" id="animalCount">0种动物</div>
+                </div>
+                <div class="discover-card" data-category="landmarks">
+                    <div class="discover-icon">🏰</div>
+                    <div class="discover-name">世界地标</div>
+                    <div class="discover-count" id="landmarkCount">0个地标</div>
+                </div>
+                <div class="discover-card" data-category="foods">
+                    <div class="discover-icon">🍕</div>
+                    <div class="discover-name">世界美食</div>
+                    <div class="discover-count" id="foodCount">0种美食</div>
+                </div>
+                <div class="discover-card" data-category="cars">
+                    <div class="discover-icon">🚗</div>
+                    <div class="discover-name">世界车标</div>
+                    <div class="discover-count" id="carCount">0个车标</div>
+                </div>
+            </div>
+        </div>
+
+        <div id="categoryView" class="category-view">
+            <div class="category-header">
+                <button class="back-btn" id="backToDiscover">← 返回</button>
+                <h1 class="category-title title-font" id="categoryTitle">🐼 特色动物</h1>
+            </div>
+            <div class="category-content" id="categoryContent"></div>
         </div>
 
         <div id="profileView" class="profile-view">
@@ -1399,6 +1703,10 @@
         <button class="nav-item" data-view="game">
             <span class="nav-item-icon">🏆</span>
             <span class="nav-item-text">游戏</span>
+        </button>
+        <button class="nav-item" data-view="discover">
+            <span class="nav-item-icon">🔍</span>
+            <span class="nav-item-text">发现</span>
         </button>
         <button class="nav-item" data-view="learn">
             <span class="nav-item-icon">📚</span>
@@ -1617,6 +1925,73 @@
             'north-america': '北美洲',
             'south-america': '南美洲',
             'oceania': '大洋洲'
+        };
+
+        const animals = [
+            { id: 'panda', name: '大熊猫', emoji: '🐼', country: '中国', countryId: 'CN', desc: '大熊猫是中国的国宝，喜欢吃竹子，黑白相间的毛色非常可爱' },
+            { id: 'kangaroo', name: '袋鼠', emoji: '🦘', country: '澳大利亚', countryId: 'AU', desc: '袋鼠是澳大利亚的标志性动物，有强壮的后腿，能跳得很高很远' },
+            { id: 'lion', name: '狮子', emoji: '🦁', country: '南非', countryId: 'ZA', desc: '狮子被称为"草原之王"，是非洲大草原上最威风的动物' },
+            { id: 'elephant', name: '大象', emoji: '🐘', country: '印度', countryId: 'IN', desc: '大象是陆地上最大的动物，有长长的鼻子，非常聪明' },
+            { id: 'penguin', name: '企鹅', emoji: '🐧', country: '南极洲', countryId: 'AQ', desc: '企鹅生活在寒冷的南极，穿着黑白"燕尾服"，走路摇摇摆摆' },
+            { id: 'koala', name: '考拉', emoji: '🐨', country: '澳大利亚', countryId: 'AU', desc: '考拉也叫树袋熊，喜欢抱着树睡觉，一天能睡20个小时' },
+            { id: 'tiger', name: '老虎', emoji: '🐅', country: '印度', countryId: 'IN', desc: '老虎是森林之王，身上有漂亮的条纹，非常强壮' },
+            { id: 'eagle', name: '白头鹰', emoji: '🦅', country: '美国', countryId: 'US', desc: '白头鹰是美国的国鸟，目光锐利，飞得很高' },
+            { id: 'camel', name: '骆驼', emoji: '🐪', country: '沙特阿拉伯', countryId: 'SA', desc: '骆驼被称为"沙漠之舟"，能在沙漠中行走很长时间不喝水' },
+            { id: 'giraffe', name: '长颈鹿', emoji: '🦒', country: '肯尼亚', countryId: 'KE', desc: '长颈鹿是世界上最高的动物，脖子很长，能吃到很高的树叶' },
+            { id: 'polar_bear', name: '北极熊', emoji: '🐻‍❄️', country: '加拿大', countryId: 'CA', desc: '北极熊生活在北极，毛是白色的，是游泳健将' },
+            { id: 'fox', name: '狐狸', emoji: '🦊', country: '英国', countryId: 'GB', desc: '狐狸很聪明，有漂亮的红色皮毛，尾巴蓬松' }
+        ];
+
+        const landmarks = [
+            { id: 'great_wall', name: '万里长城', emoji: '🏯', country: '中国', countryId: 'CN', desc: '万里长城是世界七大奇迹之一，像一条巨龙蜿蜒在群山之间' },
+            { id: 'eiffel_tower', name: '埃菲尔铁塔', emoji: '🗼', country: '法国', countryId: 'FR', desc: '埃菲尔铁塔是巴黎的标志，高高的铁塔在夜晚闪闪发光' },
+            { id: 'pyramid', name: '金字塔', emoji: '🔺', country: '埃及', countryId: 'EG', desc: '金字塔是古埃及法老的陵墓，已经矗立了几千年' },
+            { id: 'statue_liberty', name: '自由女神像', emoji: '🗽', country: '美国', countryId: 'US', desc: '自由女神像高举火炬，欢迎来自世界各地的人们' },
+            { id: 'big_ben', name: '大本钟', emoji: '🕰️', country: '英国', countryId: 'GB', desc: '大本钟是伦敦的标志，是一座古老的大钟楼' },
+            { id: 'colosseum', name: '罗马斗兽场', emoji: '🏟️', country: '意大利', countryId: 'IT', desc: '罗马斗兽场是古罗马的竞技场，能容纳很多观众' },
+            { id: 'taj_mahal', name: '泰姬陵', emoji: '🕌', country: '印度', countryId: 'IN', desc: '泰姬陵是一座美丽的白色大理石建筑，被称为"印度的珍珠"' },
+            { id: 'sydney_opera', name: '悉尼歌剧院', emoji: '🎭', country: '澳大利亚', countryId: 'AU', desc: '悉尼歌剧院像白色的帆船，漂浮在海面上' },
+            { id: 'christ_redeemer', name: '基督像', emoji: '✝️', country: '巴西', countryId: 'BR', desc: '基督像站在山顶，张开双臂拥抱整个城市' },
+            { id: 'mount_fuji', name: '富士山', emoji: '🗻', country: '日本', countryId: 'JP', desc: '富士山是日本最高的山，山顶终年积雪，非常美丽' },
+            { id: 'kremlin', name: '克里姆林宫', emoji: '🏰', country: '俄罗斯', countryId: 'RU', desc: '克里姆林宫是俄罗斯的总统府，有漂亮的彩色洋葱头' },
+            { id: 'sphinx', name: '狮身人面像', emoji: '🦁', country: '埃及', countryId: 'EG', desc: '狮身人面像有狮子的身体和人的头，守护着金字塔' }
+        ];
+
+        const foods = [
+            { id: 'dumpling', name: '饺子', emoji: '🥟', country: '中国', countryId: 'CN', desc: '饺子是中国传统美食，过年时全家人一起包饺子' },
+            { id: 'pizza', name: '披萨', emoji: '🍕', country: '意大利', countryId: 'IT', desc: '披萨来自意大利，圆圆的面饼上有香浓的芝士和各种配料' },
+            { id: 'sushi', name: '寿司', emoji: '🍣', country: '日本', countryId: 'JP', desc: '寿司是日本料理，用米饭包裹新鲜的海鲜' },
+            { id: 'croissant', name: '可颂', emoji: '🥐', country: '法国', countryId: 'FR', desc: '可颂是法国面包，形状像弯弯的月亮，酥脆可口' },
+            { id: 'hamburger', name: '汉堡', emoji: '🍔', country: '美国', countryId: 'US', desc: '汉堡是美国快餐，圆圆的面包夹着肉饼和蔬菜' },
+            { id: 'taco', name: '塔可', emoji: '🌮', country: '墨西哥', countryId: 'MX', desc: '塔可是墨西哥美食，用玉米饼包裹肉和蔬菜' },
+            { id: 'curry', name: '咖喱', emoji: '🍛', country: '印度', countryId: 'IN', desc: '咖喱是印度美食，香香的黄色酱汁配上米饭' },
+            { id: 'pasta', name: '意大利面', emoji: '🍝', country: '意大利', countryId: 'IT', desc: '意大利面有各种形状，配上番茄酱或奶油酱' },
+            { id: 'ramen', name: '拉面', emoji: '🍜', country: '日本', countryId: 'JP', desc: '拉面是日本面条，汤很浓郁，上面有鸡蛋和肉片' },
+            { id: 'paella', name: '海鲜饭', emoji: '🥘', country: '西班牙', countryId: 'ES', desc: '海鲜饭是西班牙美食，黄色的米饭上有各种海鲜' },
+            { id: 'hotpot', name: '火锅', emoji: '🍲', country: '中国', countryId: 'CN', desc: '火锅是中国美食，大家围坐在一起涮各种食材' },
+            { id: 'icecream', name: '冰淇淋', emoji: '🍦', country: '意大利', countryId: 'IT', desc: '意大利冰淇淋很有名，口感顺滑，口味很多' }
+        ];
+
+        const cars = [
+            { id: 'bmw', name: '宝马', emoji: '🚙', country: '德国', countryId: 'DE', desc: '宝马是德国豪华汽车品牌，标志是蓝白相间的圆形' },
+            { id: 'mercedes', name: '奔驰', emoji: '🚗', country: '德国', countryId: 'DE', desc: '奔驰是德国汽车品牌，标志是三叉星' },
+            { id: 'toyota', name: '丰田', emoji: '🚘', country: '日本', countryId: 'JP', desc: '丰田是日本最大的汽车公司，生产很多省油的车' },
+            { id: 'ford', name: '福特', emoji: '🚙', country: '美国', countryId: 'US', desc: '福特是美国汽车品牌，标志是蓝色的椭圆形' },
+            { id: 'ferrari', name: '法拉利', emoji: '🏎️', country: '意大利', countryId: 'IT', desc: '法拉利是意大利跑车，红色的车身非常帅气' },
+            { id: 'volkswagen', name: '大众', emoji: '🚗', country: '德国', countryId: 'DE', desc: '大众是德国汽车品牌，甲壳虫汽车很有名' },
+            { id: 'honda', name: '本田', emoji: '🚘', country: '日本', countryId: 'JP', desc: '本田是日本汽车品牌，也生产摩托车' },
+            { id: 'audi', name: '奥迪', emoji: '🚙', country: '德国', countryId: 'DE', desc: '奥迪是德国豪华汽车，标志是四个圆圈连在一起' },
+            { id: 'tesla', name: '特斯拉', emoji: '⚡', country: '美国', countryId: 'US', desc: '特斯拉是美国电动汽车，不用加油，很环保' },
+            { id: 'porsche', name: '保时捷', emoji: '🏎️', country: '德国', countryId: 'DE', desc: '保时捷是德国跑车品牌，速度很快' },
+            { id: 'hyundai', name: '现代', emoji: '🚗', country: '韩国', countryId: 'KR', desc: '现代是韩国汽车品牌，标志是倾斜的H' },
+            { id: 'rolls_royce', name: '劳斯莱斯', emoji: '🚙', country: '英国', countryId: 'GB', desc: '劳斯莱斯是英国超豪华汽车，车头有个小飞天女神' }
+        ];
+
+        const categoryData = {
+            animals: { data: animals, title: '🐼 特色动物', icon: '🐼' },
+            landmarks: { data: landmarks, title: '🏰 世界地标', icon: '🏰' },
+            foods: { data: foods, title: '🍕 世界美食', icon: '🍕' },
+            cars: { data: cars, title: '🚗 世界车标', icon: '🚗' }
         };
 
         let currentView = 'explore';
@@ -1886,10 +2261,127 @@
             document.getElementById('exploreView').style.display = view === 'explore' ? 'flex' : 'none';
             document.getElementById('gameView').classList.toggle('active', view === 'game');
             document.getElementById('learnView').classList.toggle('active', view === 'learn');
+            document.getElementById('discoverView').classList.toggle('active', view === 'discover');
+            document.getElementById('categoryView').classList.toggle('active', view === 'category');
             document.getElementById('profileView').classList.toggle('active', view === 'profile');
             
             if (view === 'game' && gameQuestions.length === 0) {
                 startNewGame();
+            }
+            
+            if (view === 'discover') {
+                updateDiscoverCounts();
+            }
+        }
+
+        function updateDiscoverCounts() {
+            document.getElementById('animalCount').textContent = `${animals.length}种动物`;
+            document.getElementById('landmarkCount').textContent = `${landmarks.length}个地标`;
+            document.getElementById('foodCount').textContent = `${foods.length}种美食`;
+            document.getElementById('carCount').textContent = `${cars.length}个车标`;
+        }
+
+        function showCategory(category) {
+            const catData = categoryData[category];
+            if (!catData) return;
+            
+            document.getElementById('categoryTitle').textContent = catData.title;
+            
+            const content = document.getElementById('categoryContent');
+            content.innerHTML = catData.data.map(item => `
+                <div class="item-card" data-id="${item.id}" data-category="${category}">
+                    <div class="item-emoji">${item.emoji}</div>
+                    <div class="item-name">${item.name}</div>
+                    <div class="item-country">📍 ${item.country}</div>
+                </div>
+            `).join('');
+            
+            content.querySelectorAll('.item-card').forEach(card => {
+                card.addEventListener('click', () => {
+                    const item = catData.data.find(i => i.id === card.dataset.id);
+                    if (item) {
+                        showItemDetail(item);
+                    }
+                });
+            });
+            
+            switchView('category');
+        }
+
+        function showItemDetail(item) {
+            const existingCard = document.querySelector('.item-detail-card');
+            if (existingCard) {
+                existingCard.remove();
+            }
+            
+            const card = document.createElement('div');
+            card.className = 'item-detail-card';
+            card.innerHTML = `
+                <div class="item-detail-emoji">${item.emoji}</div>
+                <div class="item-detail-name">${item.name}</div>
+                <div class="item-detail-country">📍 ${item.country}</div>
+                <div class="item-detail-desc">${item.desc}</div>
+                <button class="item-detail-speak">🔊 听一听</button>
+            `;
+            
+            document.body.appendChild(card);
+            document.getElementById('overlay').classList.add('show');
+            
+            setTimeout(() => card.classList.add('show'), 10);
+            
+            const speakBtn = card.querySelector('.item-detail-speak');
+            speakBtn.addEventListener('click', () => {
+                speakItemInfo(item);
+            });
+            
+            const overlay = document.getElementById('overlay');
+            const closeHandler = () => {
+                card.classList.remove('show');
+                overlay.classList.remove('show');
+                setTimeout(() => card.remove(), 300);
+                overlay.removeEventListener('click', closeHandler);
+            };
+            
+            overlay.addEventListener('click', closeHandler);
+            
+            speakItemInfo(item);
+        }
+
+        function speakItemInfo(item) {
+            if (!('speechSynthesis' in window)) {
+                return;
+            }
+            
+            speechSynthesis.cancel();
+            
+            const text = `${item.name}，来自${item.country}。${item.desc}`;
+            const utterance = new SpeechSynthesisUtterance(text);
+            utterance.lang = 'zh-CN';
+            utterance.rate = 0.85;
+            utterance.volume = 1;
+            utterance.pitch = 1;
+            
+            const trySpeak = () => {
+                const voices = speechSynthesis.getVoices();
+                const zhVoice = voices.find(v => v.lang.includes('zh'));
+                if (zhVoice) {
+                    utterance.voice = zhVoice;
+                }
+                
+                if (speechSynthesis.speaking) {
+                    speechSynthesis.cancel();
+                }
+                
+                setTimeout(() => {
+                    speechSynthesis.speak(utterance);
+                }, 100);
+            };
+            
+            if (speechSynthesis.getVoices().length > 0) {
+                trySpeak();
+            } else {
+                speechSynthesis.onvoiceschanged = trySpeak;
+                setTimeout(trySpeak, 500);
             }
         }
 
@@ -2188,6 +2680,16 @@
             document.getElementById('resultBtn').addEventListener('click', () => {
                 document.getElementById('resultOverlay').classList.remove('show');
                 startNewGame();
+            });
+            
+            document.querySelectorAll('.discover-card').forEach(card => {
+                card.addEventListener('click', () => {
+                    showCategory(card.dataset.category);
+                });
+            });
+            
+            document.getElementById('backToDiscover').addEventListener('click', () => {
+                switchView('discover');
             });
         }
 
