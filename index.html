@@ -1,0 +1,1757 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>小世界探索家 - 幼儿园地图学习器</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700&family=ZCOOL+KuaiLe&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #4ECDC4;
+            --secondary: #FFE66D;
+            --accent: #FF6B6B;
+            --aux-green: #95E1D3;
+            --aux-pink: #F38181;
+            --aux-purple: #AA96DA;
+            --bg-cream: #FFF9E6;
+            --bg-mint: #E8F6F3;
+            --text-dark: #5D5D5D;
+            --text-white: #FFFFFF;
+            --shadow: 0 8px 32px rgba(0,0,0,0.1);
+            --shadow-hover: 0 12px 48px rgba(0,0,0,0.15);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Noto Sans SC', sans-serif;
+            background: linear-gradient(135deg, var(--bg-cream) 0%, var(--bg-mint) 100%);
+            min-height: 100vh;
+            color: var(--text-dark);
+            overflow-x: hidden;
+        }
+
+        .title-font {
+            font-family: 'ZCOOL KuaiLe', cursive;
+        }
+
+        .navbar {
+            height: 80px;
+            background: linear-gradient(135deg, var(--bg-cream) 0%, rgba(255,249,230,0.95) 100%);
+            backdrop-filter: blur(10px);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 24px;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 100;
+            box-shadow: 0 2px 20px rgba(0,0,0,0.05);
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 28px;
+            color: var(--primary);
+        }
+
+        .logo-icon {
+            font-size: 36px;
+            animation: bounce 2s ease-in-out infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-5px); }
+        }
+
+        .nav-center {
+            display: flex;
+            gap: 16px;
+        }
+
+        .mode-toggle {
+            display: flex;
+            background: var(--bg-mint);
+            border-radius: 50px;
+            padding: 6px;
+            gap: 4px;
+        }
+
+        .mode-btn {
+            padding: 12px 24px;
+            border: none;
+            background: transparent;
+            border-radius: 50px;
+            font-family: 'ZCOOL KuaiLe', cursive;
+            font-size: 18px;
+            color: var(--text-dark);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .mode-btn.active {
+            background: var(--primary);
+            color: var(--text-white);
+            box-shadow: 0 4px 15px rgba(78,205,196,0.4);
+        }
+
+        .mode-btn:hover:not(.active) {
+            background: rgba(78,205,196,0.2);
+        }
+
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .stars-display {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: linear-gradient(135deg, var(--secondary) 0%, #FFD93D 100%);
+            padding: 10px 20px;
+            border-radius: 50px;
+            font-family: 'ZCOOL KuaiLe', cursive;
+            font-size: 20px;
+            color: var(--text-dark);
+            box-shadow: 0 4px 15px rgba(255,230,109,0.4);
+        }
+
+        .star-icon {
+            font-size: 24px;
+            animation: sparkle 1.5s ease-in-out infinite;
+        }
+
+        @keyframes sparkle {
+            0%, 100% { transform: scale(1) rotate(0deg); }
+            50% { transform: scale(1.2) rotate(10deg); }
+        }
+
+        .settings-btn {
+            width: 48px;
+            height: 48px;
+            border: none;
+            background: var(--bg-mint);
+            border-radius: 50%;
+            font-size: 24px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .settings-btn:hover {
+            background: var(--primary);
+            color: var(--text-white);
+            transform: rotate(90deg);
+        }
+
+        .main-content {
+            padding-top: 80px;
+            padding-bottom: 100px;
+            min-height: 100vh;
+        }
+
+        .explore-view {
+            display: flex;
+            flex-direction: column;
+            height: calc(100vh - 180px);
+            padding: 16px;
+        }
+
+        .continent-bar {
+            display: flex;
+            gap: 12px;
+            padding: 16px;
+            overflow-x: auto;
+            background: rgba(255,255,255,0.7);
+            border-radius: 24px;
+            margin-bottom: 16px;
+            backdrop-filter: blur(10px);
+        }
+
+        .continent-btn {
+            flex-shrink: 0;
+            padding: 12px 24px;
+            border: 3px solid transparent;
+            background: var(--text-white);
+            border-radius: 50px;
+            font-family: 'ZCOOL KuaiLe', cursive;
+            font-size: 18px;
+            color: var(--text-dark);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            white-space: nowrap;
+        }
+
+        .continent-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--shadow);
+        }
+
+        .continent-btn.active {
+            border-color: var(--primary);
+            background: linear-gradient(135deg, var(--primary) 0%, var(--aux-green) 100%);
+            color: var(--text-white);
+        }
+
+        .continent-btn[data-continent="asia"] { --btn-color: #FF6B6B; }
+        .continent-btn[data-continent="africa"] { --btn-color: #FFE66D; }
+        .continent-btn[data-continent="europe"] { --btn-color: #4ECDC4; }
+        .continent-btn[data-continent="north-america"] { --btn-color: #AA96DA; }
+        .continent-btn[data-continent="south-america"] { --btn-color: #95E1D3; }
+        .continent-btn[data-continent="oceania"] { --btn-color: #F38181; }
+
+        .continent-btn.active {
+            background: linear-gradient(135deg, var(--btn-color, var(--primary)) 0%, var(--primary) 100%);
+            border-color: var(--btn-color, var(--primary));
+        }
+
+        .map-container {
+            flex: 1;
+            background: var(--text-white);
+            border-radius: 24px;
+            overflow: hidden;
+            position: relative;
+            box-shadow: var(--shadow);
+        }
+
+        .map-wrapper {
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            cursor: grab;
+        }
+
+        .map-wrapper:active {
+            cursor: grabbing;
+        }
+
+        .map-wrapper svg {
+            width: 100%;
+            height: 100%;
+            transform-origin: center;
+            transition: transform 0.3s ease;
+        }
+
+        .map-wrapper svg path {
+            cursor: pointer;
+            transition: all 0.3s ease;
+            stroke: #fff;
+            stroke-width: 0.5;
+        }
+
+        .map-wrapper svg path:hover {
+            filter: brightness(1.2);
+            stroke-width: 1.5;
+            stroke: var(--primary);
+        }
+
+        .map-wrapper svg path.highlighted {
+            fill: var(--primary) !important;
+            stroke: var(--accent);
+            stroke-width: 2;
+            animation: pulse 1s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+
+        .zoom-controls {
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .zoom-btn {
+            width: 48px;
+            height: 48px;
+            border: none;
+            background: var(--text-white);
+            border-radius: 50%;
+            font-size: 24px;
+            cursor: pointer;
+            box-shadow: var(--shadow);
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .zoom-btn:hover {
+            background: var(--primary);
+            color: var(--text-white);
+            transform: scale(1.1);
+        }
+
+        .country-card {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0);
+            width: 320px;
+            background: var(--text-white);
+            border-radius: 24px;
+            padding: 24px;
+            box-shadow: var(--shadow-hover);
+            z-index: 200;
+            opacity: 0;
+            transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        }
+
+        .country-card.show {
+            transform: translate(-50%, -50%) scale(1);
+            opacity: 1;
+        }
+
+        .card-close {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            width: 36px;
+            height: 36px;
+            border: none;
+            background: var(--bg-mint);
+            border-radius: 50%;
+            font-size: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .card-close:hover {
+            background: var(--accent);
+            color: var(--text-white);
+        }
+
+        .card-flag {
+            width: 160px;
+            height: 100px;
+            margin: 0 auto 16px;
+            background: var(--bg-mint);
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 64px;
+            box-shadow: inset 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .card-name {
+            font-family: 'ZCOOL KuaiLe', cursive;
+            font-size: 32px;
+            text-align: center;
+            color: var(--text-dark);
+            margin-bottom: 8px;
+        }
+
+        .card-capital {
+            text-align: center;
+            font-size: 20px;
+            color: var(--primary);
+            margin-bottom: 16px;
+        }
+
+        .card-capital span {
+            color: var(--text-dark);
+        }
+
+        .card-continent {
+            text-align: center;
+            font-size: 16px;
+            color: var(--aux-purple);
+            margin-bottom: 20px;
+        }
+
+        .speak-btn {
+            width: 100%;
+            padding: 16px;
+            border: none;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--aux-green) 100%);
+            border-radius: 50px;
+            font-family: 'ZCOOL KuaiLe', cursive;
+            font-size: 20px;
+            color: var(--text-white);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+        }
+
+        .speak-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(78,205,196,0.4);
+        }
+
+        .speak-btn.speaking {
+            animation: speaking 0.5s ease-in-out infinite;
+        }
+
+        @keyframes speaking {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.3);
+            backdrop-filter: blur(5px);
+            z-index: 150;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .overlay.show {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .bottom-nav {
+            height: 100px;
+            background: linear-gradient(135deg, var(--bg-cream) 0%, rgba(255,249,230,0.98) 100%);
+            backdrop-filter: blur(10px);
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            z-index: 100;
+            box-shadow: 0 -2px 20px rgba(0,0,0,0.05);
+            padding-bottom: env(safe-area-inset-bottom);
+        }
+
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+            padding: 12px 20px;
+            border: none;
+            background: transparent;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            min-width: 88px;
+            min-height: 88px;
+        }
+
+        .nav-item-icon {
+            font-size: 32px;
+            transition: all 0.3s ease;
+        }
+
+        .nav-item-text {
+            font-family: 'ZCOOL KuaiLe', cursive;
+            font-size: 16px;
+            color: var(--text-dark);
+            opacity: 0.7;
+            transition: all 0.3s ease;
+        }
+
+        .nav-item.active .nav-item-icon {
+            transform: scale(1.2);
+            filter: drop-shadow(0 4px 8px rgba(78,205,196,0.4));
+        }
+
+        .nav-item.active .nav-item-text {
+            color: var(--primary);
+            opacity: 1;
+        }
+
+        .nav-item:hover .nav-item-icon {
+            transform: translateY(-5px);
+        }
+
+        .game-view, .learn-view, .profile-view {
+            display: none;
+            padding: 24px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .game-view.active, .learn-view.active, .profile-view.active {
+            display: block;
+        }
+
+        .game-header {
+            text-align: center;
+            margin-bottom: 32px;
+        }
+
+        .game-title {
+            font-family: 'ZCOOL KuaiLe', cursive;
+            font-size: 36px;
+            color: var(--primary);
+            margin-bottom: 8px;
+        }
+
+        .game-subtitle {
+            font-size: 20px;
+            color: var(--text-dark);
+        }
+
+        .game-progress {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            margin-bottom: 32px;
+        }
+
+        .progress-dot {
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            background: var(--bg-mint);
+            transition: all 0.3s ease;
+        }
+
+        .progress-dot.correct {
+            background: var(--aux-green);
+        }
+
+        .progress-dot.wrong {
+            background: var(--accent);
+        }
+
+        .progress-dot.current {
+            background: var(--primary);
+            transform: scale(1.3);
+        }
+
+        .game-card-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 32px;
+        }
+
+        .question-card {
+            background: var(--text-white);
+            border-radius: 24px;
+            padding: 32px;
+            text-align: center;
+            box-shadow: var(--shadow);
+            min-width: 300px;
+        }
+
+        .question-flag {
+            font-size: 80px;
+            margin-bottom: 16px;
+        }
+
+        .question-text {
+            font-family: 'ZCOOL KuaiLe', cursive;
+            font-size: 28px;
+            color: var(--text-dark);
+        }
+
+        .options-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 16px;
+            max-width: 600px;
+        }
+
+        .option-btn {
+            padding: 20px 32px;
+            border: 3px solid var(--bg-mint);
+            background: var(--text-white);
+            border-radius: 20px;
+            font-family: 'ZCOOL KuaiLe', cursive;
+            font-size: 22px;
+            color: var(--text-dark);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+        }
+
+        .option-flag {
+            font-size: 36px;
+            line-height: 1;
+        }
+
+        .option-flag-big {
+            font-size: 56px;
+            line-height: 1;
+        }
+
+        .option-btn.flag-only {
+            padding: 24px;
+            min-height: 100px;
+        }
+
+        .option-btn.continent-btn {
+            background: linear-gradient(135deg, var(--bg-mint) 0%, var(--text-white) 100%);
+        }
+
+        .option-btn:hover {
+            border-color: var(--primary);
+            transform: translateY(-3px);
+            box-shadow: var(--shadow);
+        }
+
+        .option-btn.correct {
+            border-color: var(--aux-green);
+            background: var(--aux-green);
+            color: var(--text-white);
+            animation: correctPop 0.5s ease;
+        }
+
+        .option-btn.wrong {
+            border-color: var(--accent);
+            background: var(--accent);
+            color: var(--text-white);
+            animation: shake 0.5s ease;
+        }
+
+        @keyframes correctPop {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-10px); }
+            75% { transform: translateX(10px); }
+        }
+
+        .result-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 300;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .result-overlay.show {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .result-card {
+            background: var(--text-white);
+            border-radius: 32px;
+            padding: 48px;
+            text-align: center;
+            transform: scale(0.8);
+            transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        }
+
+        .result-overlay.show .result-card {
+            transform: scale(1);
+        }
+
+        .result-icon {
+            font-size: 80px;
+            margin-bottom: 16px;
+        }
+
+        .result-title {
+            font-family: 'ZCOOL KuaiLe', cursive;
+            font-size: 36px;
+            color: var(--primary);
+            margin-bottom: 8px;
+        }
+
+        .result-stars {
+            font-size: 48px;
+            margin-bottom: 24px;
+        }
+
+        .result-btn {
+            padding: 16px 48px;
+            border: none;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--aux-green) 100%);
+            border-radius: 50px;
+            font-family: 'ZCOOL KuaiLe', cursive;
+            font-size: 22px;
+            color: var(--text-white);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .result-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(78,205,196,0.4);
+        }
+
+        .learn-section {
+            margin-bottom: 32px;
+        }
+
+        .learn-title {
+            font-family: 'ZCOOL KuaiLe', cursive;
+            font-size: 28px;
+            color: var(--primary);
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .countries-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 16px;
+        }
+
+        .country-item {
+            background: var(--text-white);
+            border-radius: 20px;
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+
+        .country-item:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow);
+        }
+
+        .country-item-flag {
+            font-size: 40px;
+        }
+
+        .country-item-info {
+            flex: 1;
+        }
+
+        .country-item-name {
+            font-family: 'ZCOOL KuaiLe', cursive;
+            font-size: 20px;
+            color: var(--text-dark);
+        }
+
+        .country-item-capital {
+            font-size: 14px;
+            color: var(--primary);
+        }
+
+        .profile-header {
+            text-align: center;
+            margin-bottom: 32px;
+        }
+
+        .profile-avatar {
+            width: 120px;
+            height: 120px;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--aux-green) 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 60px;
+            margin: 0 auto 16px;
+            box-shadow: var(--shadow);
+        }
+
+        .profile-name {
+            font-family: 'ZCOOL KuaiLe', cursive;
+            font-size: 32px;
+            color: var(--text-dark);
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 16px;
+            margin-bottom: 32px;
+        }
+
+        .stat-card {
+            background: var(--text-white);
+            border-radius: 20px;
+            padding: 24px;
+            text-align: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+
+        .stat-value {
+            font-family: 'ZCOOL KuaiLe', cursive;
+            font-size: 36px;
+            color: var(--primary);
+        }
+
+        .stat-label {
+            font-size: 16px;
+            color: var(--text-dark);
+            opacity: 0.7;
+        }
+
+        .achievements-title {
+            font-family: 'ZCOOL KuaiLe', cursive;
+            font-size: 24px;
+            color: var(--text-dark);
+            margin-bottom: 16px;
+        }
+
+        .achievements-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+            gap: 16px;
+        }
+
+        .achievement {
+            background: var(--text-white);
+            border-radius: 16px;
+            padding: 16px;
+            text-align: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+
+        .achievement-icon {
+            font-size: 40px;
+            margin-bottom: 8px;
+        }
+
+        .achievement-name {
+            font-size: 12px;
+            color: var(--text-dark);
+        }
+
+        .achievement.locked {
+            opacity: 0.5;
+            filter: grayscale(1);
+        }
+
+        @media (max-width: 768px) {
+            .navbar {
+                padding: 0 16px;
+            }
+
+            .logo {
+                font-size: 20px;
+            }
+
+            .logo-icon {
+                font-size: 28px;
+            }
+
+            .mode-btn {
+                padding: 8px 16px;
+                font-size: 14px;
+            }
+
+            .stars-display {
+                padding: 8px 16px;
+                font-size: 16px;
+            }
+
+            .bottom-nav {
+                height: 80px;
+            }
+
+            .nav-item-icon {
+                font-size: 28px;
+            }
+
+            .nav-item-text {
+                font-size: 14px;
+            }
+
+            .continent-btn {
+                padding: 10px 18px;
+                font-size: 14px;
+            }
+
+            .country-card {
+                width: 90%;
+                max-width: 320px;
+            }
+
+            .options-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .loading {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            gap: 16px;
+        }
+
+        .loading-earth {
+            font-size: 60px;
+            animation: spin 2s linear infinite;
+        }
+
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .loading-text {
+            font-family: 'ZCOOL KuaiLe', cursive;
+            font-size: 24px;
+            color: var(--primary);
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="logo title-font">
+            <span class="logo-icon">🌍</span>
+            小世界探索家
+        </div>
+        <div class="nav-center">
+            <div class="mode-toggle">
+                <button class="mode-btn active" data-mode="explore">探索</button>
+                <button class="mode-btn" data-mode="game">游戏</button>
+            </div>
+        </div>
+        <div class="nav-right">
+            <div class="stars-display">
+                <span class="star-icon">⭐</span>
+                <span id="starCount">0</span>
+            </div>
+            <button class="settings-btn">⚙️</button>
+        </div>
+    </nav>
+
+    <main class="main-content">
+        <div id="exploreView" class="explore-view">
+            <div class="continent-bar">
+                <button class="continent-btn active" data-continent="all">🌏 全部</button>
+                <button class="continent-btn" data-continent="asia">🌸 亚洲</button>
+                <button class="continent-btn" data-continent="africa">🦁 非洲</button>
+                <button class="continent-btn" data-continent="europe">🏰 欧洲</button>
+                <button class="continent-btn" data-continent="north-america">🗽 北美洲</button>
+                <button class="continent-btn" data-continent="south-america">🌴 南美洲</button>
+                <button class="continent-btn" data-continent="oceania">🏝️ 大洋洲</button>
+            </div>
+            <div class="map-container">
+                <div class="map-wrapper" id="mapWrapper">
+                    <div class="loading">
+                        <div class="loading-earth">🌍</div>
+                        <div class="loading-text">地图加载中...</div>
+                    </div>
+                </div>
+                <div class="zoom-controls">
+                    <button class="zoom-btn" id="zoomIn">+</button>
+                    <button class="zoom-btn" id="zoomOut">−</button>
+                    <button class="zoom-btn" id="zoomReset">⟲</button>
+                </div>
+            </div>
+        </div>
+
+        <div id="gameView" class="game-view">
+            <div class="game-header">
+                <h1 class="game-title">🎮 趣味问答</h1>
+                <p class="game-subtitle">猜猜这是哪个国家？</p>
+            </div>
+            <div class="game-progress" id="gameProgress"></div>
+            <div class="game-card-container">
+                <div class="question-card">
+                    <div class="question-flag" id="questionFlag">🇨🇳</div>
+                    <div class="question-text" id="questionText">这是哪个国家的国旗？</div>
+                </div>
+                <div class="options-grid" id="optionsGrid"></div>
+            </div>
+        </div>
+
+        <div id="learnView" class="learn-view">
+            <div class="learn-section" id="learnContent"></div>
+        </div>
+
+        <div id="profileView" class="profile-view">
+            <div class="profile-header">
+                <div class="profile-avatar">👦</div>
+                <h1 class="profile-name title-font">小探险家</h1>
+            </div>
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-value" id="totalStars">0</div>
+                    <div class="stat-label">收集星星</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" id="countriesLearned">0</div>
+                    <div class="stat-label">学习国家</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" id="gamesPlayed">0</div>
+                    <div class="stat-label">游戏次数</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" id="correctRate">0%</div>
+                    <div class="stat-label">正确率</div>
+                </div>
+            </div>
+            <h2 class="achievements-title">🏆 成就徽章</h2>
+            <div class="achievements-grid">
+                <div class="achievement">
+                    <div class="achievement-icon">🌟</div>
+                    <div class="achievement-name">初次探索</div>
+                </div>
+                <div class="achievement locked">
+                    <div class="achievement-icon">🎯</div>
+                    <div class="achievement-name">十连正确</div>
+                </div>
+                <div class="achievement locked">
+                    <div class="achievement-icon">🌍</div>
+                    <div class="achievement-name">环游世界</div>
+                </div>
+                <div class="achievement locked">
+                    <div class="achievement-icon">👑</div>
+                    <div class="achievement-name">地理大师</div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <div class="overlay" id="overlay"></div>
+
+    <div class="country-card" id="countryCard">
+        <button class="card-close" id="cardClose">✕</button>
+        <div class="card-flag" id="cardFlag">🇨🇳</div>
+        <h2 class="card-name title-font" id="cardName">中国</h2>
+        <p class="card-capital">首都: <span id="cardCapital">北京</span></p>
+        <p class="card-continent" id="cardContinent">亚洲</p>
+        <button class="speak-btn" id="speakBtn">
+            🔊 听一听
+        </button>
+    </div>
+
+    <div class="result-overlay" id="resultOverlay">
+        <div class="result-card">
+            <div class="result-icon" id="resultIcon">🎉</div>
+            <h2 class="result-title title-font" id="resultTitle">太棒了！</h2>
+            <div class="result-stars" id="resultStars">⭐⭐⭐</div>
+            <button class="result-btn" id="resultBtn">继续挑战</button>
+        </div>
+    </div>
+
+    <nav class="bottom-nav">
+        <button class="nav-item active" data-view="explore">
+            <span class="nav-item-icon">🌍</span>
+            <span class="nav-item-text">世界</span>
+        </button>
+        <button class="nav-item" data-view="game">
+            <span class="nav-item-icon">🏆</span>
+            <span class="nav-item-text">游戏</span>
+        </button>
+        <button class="nav-item" data-view="learn">
+            <span class="nav-item-icon">📚</span>
+            <span class="nav-item-text">学习</span>
+        </button>
+        <button class="nav-item" data-view="profile">
+            <span class="nav-item-icon">⭐</span>
+            <span class="nav-item-text">我的</span>
+        </button>
+    </nav>
+
+    <script>
+        const countries = [
+            { id: "CN", name: "中国", nameEn: "China", capital: "北京", flag: "🇨🇳", continent: "asia" },
+            { id: "JP", name: "日本", nameEn: "Japan", capital: "东京", flag: "🇯🇵", continent: "asia" },
+            { id: "KR", name: "韩国", nameEn: "South Korea", capital: "首尔", flag: "🇰🇷", continent: "asia" },
+            { id: "KP", name: "朝鲜", nameEn: "North Korea", capital: "平壤", flag: "🇰🇵", continent: "asia" },
+            { id: "MN", name: "蒙古", nameEn: "Mongolia", capital: "乌兰巴托", flag: "🇲🇳", continent: "asia" },
+            { id: "IN", name: "印度", nameEn: "India", capital: "新德里", flag: "🇮🇳", continent: "asia" },
+            { id: "PK", name: "巴基斯坦", nameEn: "Pakistan", capital: "伊斯兰堡", flag: "🇵🇰", continent: "asia" },
+            { id: "BD", name: "孟加拉国", nameEn: "Bangladesh", capital: "达卡", flag: "🇧🇩", continent: "asia" },
+            { id: "LK", name: "斯里兰卡", nameEn: "Sri Lanka", capital: "科伦坡", flag: "🇱🇰", continent: "asia" },
+            { id: "NP", name: "尼泊尔", nameEn: "Nepal", capital: "加德满都", flag: "🇳🇵", continent: "asia" },
+            { id: "BT", name: "不丹", nameEn: "Bhutan", capital: "廷布", flag: "🇧🇹", continent: "asia" },
+            { id: "MV", name: "马尔代夫", nameEn: "Maldives", capital: "马累", flag: "🇲🇻", continent: "asia" },
+            { id: "TH", name: "泰国", nameEn: "Thailand", capital: "曼谷", flag: "🇹🇭", continent: "asia" },
+            { id: "VN", name: "越南", nameEn: "Vietnam", capital: "河内", flag: "🇻🇳", continent: "asia" },
+            { id: "LA", name: "老挝", nameEn: "Laos", capital: "万象", flag: "🇱🇦", continent: "asia" },
+            { id: "KH", name: "柬埔寨", nameEn: "Cambodia", capital: "金边", flag: "🇰🇭", continent: "asia" },
+            { id: "MM", name: "缅甸", nameEn: "Myanmar", capital: "内比都", flag: "🇲🇲", continent: "asia" },
+            { id: "MY", name: "马来西亚", nameEn: "Malaysia", capital: "吉隆坡", flag: "🇲🇾", continent: "asia" },
+            { id: "SG", name: "新加坡", nameEn: "Singapore", capital: "新加坡", flag: "🇸🇬", continent: "asia" },
+            { id: "ID", name: "印度尼西亚", nameEn: "Indonesia", capital: "雅加达", flag: "🇮🇩", continent: "asia" },
+            { id: "BN", name: "文莱", nameEn: "Brunei", capital: "斯里巴加湾市", flag: "🇧🇳", continent: "asia" },
+            { id: "PH", name: "菲律宾", nameEn: "Philippines", capital: "马尼拉", flag: "🇵🇭", continent: "asia" },
+            { id: "TL", name: "东帝汶", nameEn: "Timor-Leste", capital: "帝力", flag: "🇹🇱", continent: "asia" },
+            { id: "KZ", name: "哈萨克斯坦", nameEn: "Kazakhstan", capital: "努尔苏丹", flag: "🇰🇿", continent: "asia" },
+            { id: "KG", name: "吉尔吉斯斯坦", nameEn: "Kyrgyzstan", capital: "比什凯克", flag: "🇰🇬", continent: "asia" },
+            { id: "TJ", name: "塔吉克斯坦", nameEn: "Tajikistan", capital: "杜尚别", flag: "🇹🇯", continent: "asia" },
+            { id: "UZ", name: "乌兹别克斯坦", nameEn: "Uzbekistan", capital: "塔什干", flag: "🇺🇿", continent: "asia" },
+            { id: "TM", name: "土库曼斯坦", nameEn: "Turkmenistan", capital: "阿什哈巴德", flag: "🇹🇲", continent: "asia" },
+            { id: "AF", name: "阿富汗", nameEn: "Afghanistan", capital: "喀布尔", flag: "🇦🇫", continent: "asia" },
+            { id: "IR", name: "伊朗", nameEn: "Iran", capital: "德黑兰", flag: "🇮🇷", continent: "asia" },
+            { id: "IQ", name: "伊拉克", nameEn: "Iraq", capital: "巴格达", flag: "🇮🇶", continent: "asia" },
+            { id: "SY", name: "叙利亚", nameEn: "Syria", capital: "大马士革", flag: "🇸🇾", continent: "asia" },
+            { id: "JO", name: "约旦", nameEn: "Jordan", capital: "安曼", flag: "🇯🇴", continent: "asia" },
+            { id: "LB", name: "黎巴嫩", nameEn: "Lebanon", capital: "贝鲁特", flag: "🇱🇧", continent: "asia" },
+            { id: "IL", name: "以色列", nameEn: "Israel", capital: "耶路撒冷", flag: "🇮🇱", continent: "asia" },
+            { id: "PS", name: "巴勒斯坦", nameEn: "Palestine", capital: "拉马拉", flag: "🇵🇸", continent: "asia" },
+            { id: "SA", name: "沙特阿拉伯", nameEn: "Saudi Arabia", capital: "利雅得", flag: "🇸🇦", continent: "asia" },
+            { id: "YE", name: "也门", nameEn: "Yemen", capital: "萨那", flag: "🇾🇪", continent: "asia" },
+            { id: "OM", name: "阿曼", nameEn: "Oman", capital: "马斯喀特", flag: "🇴🇲", continent: "asia" },
+            { id: "AE", name: "阿联酋", nameEn: "United Arab Emirates", capital: "阿布扎比", flag: "🇦🇪", continent: "asia" },
+            { id: "QA", name: "卡塔尔", nameEn: "Qatar", capital: "多哈", flag: "🇶🇦", continent: "asia" },
+            { id: "BH", name: "巴林", nameEn: "Bahrain", capital: "麦纳麦", flag: "🇧🇭", continent: "asia" },
+            { id: "KW", name: "科威特", nameEn: "Kuwait", capital: "科威特城", flag: "🇰🇼", continent: "asia" },
+            { id: "TR", name: "土耳其", nameEn: "Turkey", capital: "安卡拉", flag: "🇹🇷", continent: "asia" },
+            { id: "CY", name: "塞浦路斯", nameEn: "Cyprus", capital: "尼科西亚", flag: "🇨🇾", continent: "asia" },
+            { id: "AZ", name: "阿塞拜疆", nameEn: "Azerbaijan", capital: "巴库", flag: "🇦🇿", continent: "asia" },
+            { id: "GE", name: "格鲁吉亚", nameEn: "Georgia", capital: "第比利斯", flag: "🇬🇪", continent: "asia" },
+            { id: "AM", name: "亚美尼亚", nameEn: "Armenia", capital: "埃里温", flag: "🇦🇲", continent: "asia" },
+            { id: "EG", name: "埃及", nameEn: "Egypt", capital: "开罗", flag: "🇪🇬", continent: "africa" },
+            { id: "LY", name: "利比亚", nameEn: "Libya", capital: "的黎波里", flag: "🇱🇾", continent: "africa" },
+            { id: "TN", name: "突尼斯", nameEn: "Tunisia", capital: "突尼斯市", flag: "🇹🇳", continent: "africa" },
+            { id: "DZ", name: "阿尔及利亚", nameEn: "Algeria", capital: "阿尔及尔", flag: "🇩🇿", continent: "africa" },
+            { id: "MA", name: "摩洛哥", nameEn: "Morocco", capital: "拉巴特", flag: "🇲🇦", continent: "africa" },
+            { id: "SD", name: "苏丹", nameEn: "Sudan", capital: "喀土穆", flag: "🇸🇩", continent: "africa" },
+            { id: "SS", name: "南苏丹", nameEn: "South Sudan", capital: "朱巴", flag: "🇸🇸", continent: "africa" },
+            { id: "ET", name: "埃塞俄比亚", nameEn: "Ethiopia", capital: "亚的斯亚贝巴", flag: "🇪🇹", continent: "africa" },
+            { id: "ER", name: "厄立特里亚", nameEn: "Eritrea", capital: "阿斯马拉", flag: "🇪🇷", continent: "africa" },
+            { id: "DJ", name: "吉布提", nameEn: "Djibouti", capital: "吉布提市", flag: "🇩🇯", continent: "africa" },
+            { id: "SO", name: "索马里", nameEn: "Somalia", capital: "摩加迪沙", flag: "🇸🇴", continent: "africa" },
+            { id: "KE", name: "肯尼亚", nameEn: "Kenya", capital: "内罗毕", flag: "🇰🇪", continent: "africa" },
+            { id: "UG", name: "乌干达", nameEn: "Uganda", capital: "坎帕拉", flag: "🇺🇬", continent: "africa" },
+            { id: "TZ", name: "坦桑尼亚", nameEn: "Tanzania", capital: "多多马", flag: "🇹🇿", continent: "africa" },
+            { id: "RW", name: "卢旺达", nameEn: "Rwanda", capital: "基加利", flag: "🇷🇼", continent: "africa" },
+            { id: "BI", name: "布隆迪", nameEn: "Burundi", capital: "布琼布拉", flag: "🇧🇮", continent: "africa" },
+            { id: "SC", name: "塞舌尔", nameEn: "Seychelles", capital: "维多利亚", flag: "🇸🇨", continent: "africa" },
+            { id: "TD", name: "乍得", nameEn: "Chad", capital: "恩贾梅纳", flag: "🇹🇩", continent: "africa" },
+            { id: "CF", name: "中非", nameEn: "Central African Republic", capital: "班吉", flag: "🇨🇫", continent: "africa" },
+            { id: "CM", name: "喀麦隆", nameEn: "Cameroon", capital: "雅温得", flag: "🇨🇲", continent: "africa" },
+            { id: "GQ", name: "赤道几内亚", nameEn: "Equatorial Guinea", capital: "马拉博", flag: "🇬🇶", continent: "africa" },
+            { id: "GA", name: "加蓬", nameEn: "Gabon", capital: "利伯维尔", flag: "🇬🇦", continent: "africa" },
+            { id: "CG", name: "刚果共和国", nameEn: "Republic of the Congo", capital: "布拉柴维尔", flag: "🇨🇬", continent: "africa" },
+            { id: "CD", name: "刚果民主共和国", nameEn: "Democratic Republic of the Congo", capital: "金沙萨", flag: "🇨🇩", continent: "africa" },
+            { id: "ST", name: "圣多美和普林西比", nameEn: "Sao Tome and Principe", capital: "圣多美", flag: "🇸🇹", continent: "africa" },
+            { id: "AO", name: "安哥拉", nameEn: "Angola", capital: "罗安达", flag: "🇦🇴", continent: "africa" },
+            { id: "ZM", name: "赞比亚", nameEn: "Zambia", capital: "卢萨卡", flag: "🇿🇲", continent: "africa" },
+            { id: "MW", name: "马拉维", nameEn: "Malawi", capital: "利隆圭", flag: "🇲🇼", continent: "africa" },
+            { id: "MZ", name: "莫桑比克", nameEn: "Mozambique", capital: "马普托", flag: "🇲🇿", continent: "africa" },
+            { id: "KM", name: "科摩罗", nameEn: "Comoros", capital: "莫罗尼", flag: "🇰🇲", continent: "africa" },
+            { id: "MG", name: "马达加斯加", nameEn: "Madagascar", capital: "塔那那利佛", flag: "🇲🇬", continent: "africa" },
+            { id: "MU", name: "毛里求斯", nameEn: "Mauritius", capital: "路易港", flag: "🇲🇺", continent: "africa" },
+            { id: "RE", name: "留尼汪", nameEn: "Reunion", capital: "圣但尼", flag: "🇷🇪", continent: "africa" },
+            { id: "NA", name: "纳米比亚", nameEn: "Namibia", capital: "温得和克", flag: "🇳🇦", continent: "africa" },
+            { id: "BW", name: "博茨瓦纳", nameEn: "Botswana", capital: "哈博罗内", flag: "🇧🇼", continent: "africa" },
+            { id: "ZW", name: "津巴布韦", nameEn: "Zimbabwe", capital: "哈拉雷", flag: "🇿🇼", continent: "africa" },
+            { id: "ZA", name: "南非", nameEn: "South Africa", capital: "比勒陀利亚", flag: "🇿🇦", continent: "africa" },
+            { id: "SZ", name: "斯威士兰", nameEn: "Eswatini", capital: "姆巴巴内", flag: "🇸🇿", continent: "africa" },
+            { id: "LS", name: "莱索托", nameEn: "Lesotho", capital: "马塞卢", flag: "🇱🇸", continent: "africa" },
+            { id: "SN", name: "塞内加尔", nameEn: "Senegal", capital: "达喀尔", flag: "🇸🇳", continent: "africa" },
+            { id: "GM", name: "冈比亚", nameEn: "Gambia", capital: "班珠尔", flag: "🇬🇲", continent: "africa" },
+            { id: "GW", name: "几内亚比绍", nameEn: "Guinea-Bissau", capital: "比绍", flag: "🇬🇼", continent: "africa" },
+            { id: "GN", name: "几内亚", nameEn: "Guinea", capital: "科纳克里", flag: "🇬🇳", continent: "africa" },
+            { id: "SL", name: "塞拉利昂", nameEn: "Sierra Leone", capital: "弗里敦", flag: "🇸🇱", continent: "africa" },
+            { id: "LR", name: "利比里亚", nameEn: "Liberia", capital: "蒙罗维亚", flag: "🇱🇷", continent: "africa" },
+            { id: "CI", name: "科特迪瓦", nameEn: "Ivory Coast", capital: "亚穆苏克罗", flag: "🇨🇮", continent: "africa" },
+            { id: "GH", name: "加纳", nameEn: "Ghana", capital: "阿克拉", flag: "🇬🇭", continent: "africa" },
+            { id: "TG", name: "多哥", nameEn: "Togo", capital: "洛美", flag: "🇹🇬", continent: "africa" },
+            { id: "BJ", name: "贝宁", nameEn: "Benin", capital: "波多诺伏", flag: "🇧🇯", continent: "africa" },
+            { id: "NE", name: "尼日尔", nameEn: "Niger", capital: "尼亚美", flag: "🇳🇪", continent: "africa" },
+            { id: "NG", name: "尼日利亚", nameEn: "Nigeria", capital: "阿布贾", flag: "🇳🇬", continent: "africa" },
+            { id: "BF", name: "布基纳法索", nameEn: "Burkina Faso", capital: "瓦加杜古", flag: "🇧🇫", continent: "africa" },
+            { id: "ML", name: "马里", nameEn: "Mali", capital: "巴马科", flag: "🇲🇱", continent: "africa" },
+            { id: "MR", name: "毛里塔尼亚", nameEn: "Mauritania", capital: "努瓦克肖特", flag: "🇲🇷", continent: "africa" },
+            { id: "EH", name: "西撒哈拉", nameEn: "Western Sahara", capital: "阿尤恩", flag: "🇪🇭", continent: "africa" },
+            { id: "GB", name: "英国", nameEn: "United Kingdom", capital: "伦敦", flag: "🇬🇧", continent: "europe" },
+            { id: "IE", name: "爱尔兰", nameEn: "Ireland", capital: "都柏林", flag: "🇮🇪", continent: "europe" },
+            { id: "FR", name: "法国", nameEn: "France", capital: "巴黎", flag: "🇫🇷", continent: "europe" },
+            { id: "MC", name: "摩纳哥", nameEn: "Monaco", capital: "摩纳哥", flag: "🇲🇨", continent: "europe" },
+            { id: "AD", name: "安道尔", nameEn: "Andorra", capital: "安道尔城", flag: "🇦🇩", continent: "europe" },
+            { id: "ES", name: "西班牙", nameEn: "Spain", capital: "马德里", flag: "🇪🇸", continent: "europe" },
+            { id: "PT", name: "葡萄牙", nameEn: "Portugal", capital: "里斯本", flag: "🇵🇹", continent: "europe" },
+            { id: "DE", name: "德国", nameEn: "Germany", capital: "柏林", flag: "🇩🇪", continent: "europe" },
+            { id: "AT", name: "奥地利", nameEn: "Austria", capital: "维也纳", flag: "🇦🇹", continent: "europe" },
+            { id: "CH", name: "瑞士", nameEn: "Switzerland", capital: "伯尔尼", flag: "🇨🇭", continent: "europe" },
+            { id: "LI", name: "列支敦士登", nameEn: "Liechtenstein", capital: "瓦杜兹", flag: "🇱🇮", continent: "europe" },
+            { id: "IT", name: "意大利", nameEn: "Italy", capital: "罗马", flag: "🇮🇹", continent: "europe" },
+            { id: "SM", name: "圣马力诺", nameEn: "San Marino", capital: "圣马力诺", flag: "🇸🇲", continent: "europe" },
+            { id: "VA", name: "梵蒂冈", nameEn: "Vatican City", capital: "梵蒂冈城", flag: "🇻🇦", continent: "europe" },
+            { id: "NL", name: "荷兰", nameEn: "Netherlands", capital: "阿姆斯特丹", flag: "🇳🇱", continent: "europe" },
+            { id: "BE", name: "比利时", nameEn: "Belgium", capital: "布鲁塞尔", flag: "🇧🇪", continent: "europe" },
+            { id: "LU", name: "卢森堡", nameEn: "Luxembourg", capital: "卢森堡市", flag: "🇱🇺", continent: "europe" },
+            { id: "PL", name: "波兰", nameEn: "Poland", capital: "华沙", flag: "🇵🇱", continent: "europe" },
+            { id: "CZ", name: "捷克", nameEn: "Czech Republic", capital: "布拉格", flag: "🇨🇿", continent: "europe" },
+            { id: "SK", name: "斯洛伐克", nameEn: "Slovakia", capital: "布拉迪斯拉发", flag: "🇸🇰", continent: "europe" },
+            { id: "HU", name: "匈牙利", nameEn: "Hungary", capital: "布达佩斯", flag: "🇭🇺", continent: "europe" },
+            { id: "RO", name: "罗马尼亚", nameEn: "Romania", capital: "布加勒斯特", flag: "🇷🇴", continent: "europe" },
+            { id: "BG", name: "保加利亚", nameEn: "Bulgaria", capital: "索非亚", flag: "🇧🇬", continent: "europe" },
+            { id: "RS", name: "塞尔维亚", nameEn: "Serbia", capital: "贝尔格莱德", flag: "🇷🇸", continent: "europe" },
+            { id: "ME", name: "黑山", nameEn: "Montenegro", capital: "波德戈里察", flag: "🇲🇪", continent: "europe" },
+            { id: "BA", name: "波黑", nameEn: "Bosnia and Herzegovina", capital: "萨拉热窝", flag: "🇧🇦", continent: "europe" },
+            { id: "HR", name: "克罗地亚", nameEn: "Croatia", capital: "萨格勒布", flag: "🇭🇷", continent: "europe" },
+            { id: "SI", name: "斯洛文尼亚", nameEn: "Slovenia", capital: "卢布尔雅那", flag: "🇸🇮", continent: "europe" },
+            { id: "MK", name: "北马其顿", nameEn: "North Macedonia", capital: "斯科普里", flag: "🇲🇰", continent: "europe" },
+            { id: "AL", name: "阿尔巴尼亚", nameEn: "Albania", capital: "地拉那", flag: "🇦🇱", continent: "europe" },
+            { id: "GR", name: "希腊", nameEn: "Greece", capital: "雅典", flag: "🇬🇷", continent: "europe" },
+            { id: "DK", name: "丹麦", nameEn: "Denmark", capital: "哥本哈根", flag: "🇩🇰", continent: "europe" },
+            { id: "NO", name: "挪威", nameEn: "Norway", capital: "奥斯陆", flag: "🇳🇴", continent: "europe" },
+            { id: "SE", name: "瑞典", nameEn: "Sweden", capital: "斯德哥尔摩", flag: "🇸🇪", continent: "europe" },
+            { id: "FI", name: "芬兰", nameEn: "Finland", capital: "赫尔辛基", flag: "🇫🇮", continent: "europe" },
+            { id: "IS", name: "冰岛", nameEn: "Iceland", capital: "雷克雅未克", flag: "🇮🇸", continent: "europe" },
+            { id: "EE", name: "爱沙尼亚", nameEn: "Estonia", capital: "塔林", flag: "🇪🇪", continent: "europe" },
+            { id: "LV", name: "拉脱维亚", nameEn: "Latvia", capital: "里加", flag: "🇱🇻", continent: "europe" },
+            { id: "LT", name: "立陶宛", nameEn: "Lithuania", capital: "维尔纽斯", flag: "🇱🇹", continent: "europe" },
+            { id: "BY", name: "白俄罗斯", nameEn: "Belarus", capital: "明斯克", flag: "🇧🇾", continent: "europe" },
+            { id: "UA", name: "乌克兰", nameEn: "Ukraine", capital: "基辅", flag: "🇺🇦", continent: "europe" },
+            { id: "MD", name: "摩尔多瓦", nameEn: "Moldova", capital: "基希讷乌", flag: "🇲🇩", continent: "europe" },
+            { id: "RU", name: "俄罗斯", nameEn: "Russia", capital: "莫斯科", flag: "🇷🇺", continent: "europe" },
+            { id: "MT", name: "马耳他", nameEn: "Malta", capital: "瓦莱塔", flag: "🇲🇹", continent: "europe" },
+            { id: "US", name: "美国", nameEn: "United States", capital: "华盛顿", flag: "🇺🇸", continent: "north-america" },
+            { id: "CA", name: "加拿大", nameEn: "Canada", capital: "渥太华", flag: "🇨🇦", continent: "north-america" },
+            { id: "MX", name: "墨西哥", nameEn: "Mexico", capital: "墨西哥城", flag: "🇲🇽", continent: "north-america" },
+            { id: "GT", name: "危地马拉", nameEn: "Guatemala", capital: "危地马拉城", flag: "🇬🇹", continent: "north-america" },
+            { id: "BZ", name: "伯利兹", nameEn: "Belize", capital: "贝尔莫潘", flag: "🇧🇿", continent: "north-america" },
+            { id: "HN", name: "洪都拉斯", nameEn: "Honduras", capital: "特古西加尔巴", flag: "🇭🇳", continent: "north-america" },
+            { id: "SV", name: "萨尔瓦多", nameEn: "El Salvador", capital: "圣萨尔瓦多", flag: "🇸🇻", continent: "north-america" },
+            { id: "NI", name: "尼加拉瓜", nameEn: "Nicaragua", capital: "马那瓜", flag: "🇳🇮", continent: "north-america" },
+            { id: "CR", name: "哥斯达黎加", nameEn: "Costa Rica", capital: "圣何塞", flag: "🇨🇷", continent: "north-america" },
+            { id: "PA", name: "巴拿马", nameEn: "Panama", capital: "巴拿马城", flag: "🇵🇦", continent: "north-america" },
+            { id: "CU", name: "古巴", nameEn: "Cuba", capital: "哈瓦那", flag: "🇨🇺", continent: "north-america" },
+            { id: "HT", name: "海地", nameEn: "Haiti", capital: "太子港", flag: "🇭🇹", continent: "north-america" },
+            { id: "DO", name: "多米尼加", nameEn: "Dominican Republic", capital: "圣多明各", flag: "🇩🇴", continent: "north-america" },
+            { id: "JM", name: "牙买加", nameEn: "Jamaica", capital: "金斯敦", flag: "🇯🇲", continent: "north-america" },
+            { id: "TT", name: "特立尼达和多巴哥", nameEn: "Trinidad and Tobago", capital: "西班牙港", flag: "🇹🇹", continent: "north-america" },
+            { id: "BB", name: "巴巴多斯", nameEn: "Barbados", capital: "布里奇敦", flag: "🇧🇧", continent: "north-america" },
+            { id: "BS", name: "巴哈马", nameEn: "Bahamas", capital: "拿骚", flag: "🇧🇸", continent: "north-america" },
+            { id: "GD", name: "格林纳达", nameEn: "Grenada", capital: "圣乔治", flag: "🇬🇩", continent: "north-america" },
+            { id: "LC", name: "圣卢西亚", nameEn: "Saint Lucia", capital: "卡斯特里", flag: "🇱🇨", continent: "north-america" },
+            { id: "VC", name: "圣文森特和格林纳丁斯", nameEn: "Saint Vincent and the Grenadines", capital: "金斯敦", flag: "🇻🇨", continent: "north-america" },
+            { id: "KN", name: "圣基茨和尼维斯", nameEn: "Saint Kitts and Nevis", capital: "巴斯特尔", flag: "🇰🇳", continent: "north-america" },
+            { id: "AG", name: "安提瓜和巴布达", nameEn: "Antigua and Barbuda", capital: "圣约翰", flag: "🇦🇬", continent: "north-america" },
+            { id: "DM", name: "多米尼克", nameEn: "Dominica", capital: "罗索", flag: "🇩🇲", continent: "north-america" },
+            { id: "BR", name: "巴西", nameEn: "Brazil", capital: "巴西利亚", flag: "🇧🇷", continent: "south-america" },
+            { id: "AR", name: "阿根廷", nameEn: "Argentina", capital: "布宜诺斯艾利斯", flag: "🇦🇷", continent: "south-america" },
+            { id: "CL", name: "智利", nameEn: "Chile", capital: "圣地亚哥", flag: "🇨🇱", continent: "south-america" },
+            { id: "PE", name: "秘鲁", nameEn: "Peru", capital: "利马", flag: "🇵🇪", continent: "south-america" },
+            { id: "CO", name: "哥伦比亚", nameEn: "Colombia", capital: "波哥大", flag: "🇨🇴", continent: "south-america" },
+            { id: "VE", name: "委内瑞拉", nameEn: "Venezuela", capital: "加拉加斯", flag: "🇻🇪", continent: "south-america" },
+            { id: "EC", name: "厄瓜多尔", nameEn: "Ecuador", capital: "基多", flag: "🇪🇨", continent: "south-america" },
+            { id: "BO", name: "玻利维亚", nameEn: "Bolivia", capital: "苏克雷", flag: "🇧🇴", continent: "south-america" },
+            { id: "PY", name: "巴拉圭", nameEn: "Paraguay", capital: "亚松森", flag: "🇵🇾", continent: "south-america" },
+            { id: "UY", name: "乌拉圭", nameEn: "Uruguay", capital: "蒙得维的亚", flag: "🇺🇾", continent: "south-america" },
+            { id: "GY", name: "圭亚那", nameEn: "Guyana", capital: "乔治敦", flag: "🇬🇾", continent: "south-america" },
+            { id: "SR", name: "苏里南", nameEn: "Suriname", capital: "帕拉马里博", flag: "🇸🇷", continent: "south-america" },
+            { id: "AU", name: "澳大利亚", nameEn: "Australia", capital: "堪培拉", flag: "🇦🇺", continent: "oceania" },
+            { id: "NZ", name: "新西兰", nameEn: "New Zealand", capital: "惠灵顿", flag: "🇳🇿", continent: "oceania" },
+            { id: "PG", name: "巴布亚新几内亚", nameEn: "Papua New Guinea", capital: "莫尔兹比港", flag: "🇵🇬", continent: "oceania" },
+            { id: "FJ", name: "斐济", nameEn: "Fiji", capital: "苏瓦", flag: "🇫🇯", continent: "oceania" },
+            { id: "SB", name: "所罗门群岛", nameEn: "Solomon Islands", capital: "霍尼亚拉", flag: "🇸🇧", continent: "oceania" },
+            { id: "VU", name: "瓦努阿图", nameEn: "Vanuatu", capital: "维拉港", flag: "🇻🇺", continent: "oceania" },
+            { id: "WS", name: "萨摩亚", nameEn: "Samoa", capital: "阿皮亚", flag: "🇼🇸", continent: "oceania" },
+            { id: "TO", name: "汤加", nameEn: "Tonga", capital: "努库阿洛法", flag: "🇹🇴", continent: "oceania" },
+            { id: "FM", name: "密克罗尼西亚", nameEn: "Micronesia", capital: "帕利基尔", flag: "🇫🇲", continent: "oceania" },
+            { id: "KI", name: "基里巴斯", nameEn: "Kiribati", capital: "塔拉瓦", flag: "🇰🇮", continent: "oceania" },
+            { id: "MH", name: "马绍尔群岛", nameEn: "Marshall Islands", capital: "马久罗", flag: "🇲🇭", continent: "oceania" },
+            { id: "PW", name: "帕劳", nameEn: "Palau", capital: "恩吉鲁穆德", flag: "🇵🇼", continent: "oceania" },
+            { id: "NR", name: "瑙鲁", nameEn: "Nauru", capital: "亚伦", flag: "🇳🇷", continent: "oceania" },
+            { id: "TV", name: "图瓦卢", nameEn: "Tuvalu", capital: "富纳富提", flag: "🇹🇻", continent: "oceania" }
+        ];
+
+        const continentNames = {
+            'asia': '亚洲',
+            'africa': '非洲',
+            'europe': '欧洲',
+            'north-america': '北美洲',
+            'south-america': '南美洲',
+            'oceania': '大洋洲'
+        };
+
+        let currentView = 'explore';
+        let currentContinent = 'all';
+        let mapScale = 1;
+        let mapTranslate = { x: 0, y: 0 };
+        let isDragging = false;
+        let dragStart = { x: 0, y: 0 };
+        let stars = parseInt(localStorage.getItem('stars') || '0');
+        let countriesLearned = JSON.parse(localStorage.getItem('countriesLearned') || '[]');
+        let gamesPlayed = parseInt(localStorage.getItem('gamesPlayed') || '0');
+        let correctAnswers = parseInt(localStorage.getItem('correctAnswers') || '0');
+        let totalQuestions = parseInt(localStorage.getItem('totalQuestions') || '0');
+
+        let gameQuestions = [];
+        let currentQuestionIndex = 0;
+        let gameScore = 0;
+
+        function init() {
+            loadMap();
+            setupEventListeners();
+            updateStarsDisplay();
+            renderLearnView();
+            updateProfileStats();
+        }
+
+        async function loadMap() {
+            try {
+                const response = await fetch('wordmap.svg');
+                const svgText = await response.text();
+                const mapWrapper = document.getElementById('mapWrapper');
+                mapWrapper.innerHTML = svgText;
+                
+                const svg = mapWrapper.querySelector('svg');
+                if (svg) {
+                    svg.style.width = '100%';
+                    svg.style.height = '100%';
+                    setupMapInteraction();
+                }
+            } catch (error) {
+                console.error('加载地图失败:', error);
+                document.getElementById('mapWrapper').innerHTML = '<div class="loading"><div class="loading-earth">🌍</div><div class="loading-text">地图加载失败，请刷新重试</div></div>';
+            }
+        }
+
+        function setupMapInteraction() {
+            const mapWrapper = document.getElementById('mapWrapper');
+            const svg = mapWrapper.querySelector('svg');
+            
+            if (!svg) return;
+
+            svg.querySelectorAll('path').forEach(path => {
+                path.addEventListener('click', (e) => {
+                    const countryId = path.id;
+                    const country = countries.find(c => c.id === countryId);
+                    if (country) {
+                        showCountryCard(country);
+                    }
+                });
+            });
+
+            mapWrapper.addEventListener('mousedown', (e) => {
+                if (e.target.tagName === 'path') return;
+                isDragging = true;
+                dragStart = { x: e.clientX - mapTranslate.x, y: e.clientY - mapTranslate.y };
+                mapWrapper.style.cursor = 'grabbing';
+            });
+
+            document.addEventListener('mousemove', (e) => {
+                if (!isDragging) return;
+                mapTranslate.x = e.clientX - dragStart.x;
+                mapTranslate.y = e.clientY - dragStart.y;
+                updateMapTransform();
+            });
+
+            document.addEventListener('mouseup', () => {
+                isDragging = false;
+                mapWrapper.style.cursor = 'grab';
+            });
+
+            mapWrapper.addEventListener('wheel', (e) => {
+                e.preventDefault();
+                const delta = e.deltaY > 0 ? 0.9 : 1.1;
+                mapScale = Math.max(0.5, Math.min(3, mapScale * delta));
+                updateMapTransform();
+            });
+        }
+
+        function updateMapTransform() {
+            const svg = document.querySelector('#mapWrapper svg');
+            if (svg) {
+                svg.style.transform = `translate(${mapTranslate.x}px, ${mapTranslate.y}px) scale(${mapScale})`;
+            }
+        }
+
+        function showCountryCard(country) {
+            const card = document.getElementById('countryCard');
+            const overlay = document.getElementById('overlay');
+            
+            document.getElementById('cardFlag').textContent = country.flag;
+            document.getElementById('cardName').textContent = country.name;
+            document.getElementById('cardCapital').textContent = country.capital;
+            document.getElementById('cardContinent').textContent = continentNames[country.continent] || country.continent;
+            
+            card.classList.add('show');
+            overlay.classList.add('show');
+            
+            if (!countriesLearned.includes(country.id)) {
+                countriesLearned.push(country.id);
+                localStorage.setItem('countriesLearned', JSON.stringify(countriesLearned));
+                updateProfileStats();
+            }
+        }
+
+        function hideCountryCard() {
+            document.getElementById('countryCard').classList.remove('show');
+            document.getElementById('overlay').classList.remove('show');
+        }
+
+        function speakCountryName(countryName) {
+            if ('speechSynthesis' in window) {
+                const utterance = new SpeechSynthesisUtterance(countryName);
+                utterance.lang = 'zh-CN';
+                utterance.rate = 0.8;
+                speechSynthesis.speak(utterance);
+                
+                const btn = document.getElementById('speakBtn');
+                btn.classList.add('speaking');
+                utterance.onend = () => btn.classList.remove('speaking');
+            }
+        }
+
+        function highlightContinent(continent) {
+            const svg = document.querySelector('#mapWrapper svg');
+            if (!svg) return;
+            
+            svg.querySelectorAll('path').forEach(path => {
+                path.classList.remove('highlighted');
+            });
+            
+            if (continent !== 'all') {
+                countries.filter(c => c.continent === continent).forEach(country => {
+                    const path = svg.querySelector(`#${country.id}`);
+                    if (path) {
+                        path.classList.add('highlighted');
+                    }
+                });
+            }
+        }
+
+        function switchView(view) {
+            currentView = view;
+            
+            document.querySelectorAll('.nav-item').forEach(item => {
+                item.classList.toggle('active', item.dataset.view === view);
+            });
+            
+            document.getElementById('exploreView').style.display = view === 'explore' ? 'flex' : 'none';
+            document.getElementById('gameView').classList.toggle('active', view === 'game');
+            document.getElementById('learnView').classList.toggle('active', view === 'learn');
+            document.getElementById('profileView').classList.toggle('active', view === 'profile');
+            
+            if (view === 'game' && gameQuestions.length === 0) {
+                startNewGame();
+            }
+        }
+
+        function startNewGame() {
+            gameQuestions = generateGameQuestions(10);
+            currentQuestionIndex = 0;
+            gameScore = 0;
+            renderGameProgress();
+            showQuestion();
+        }
+
+        function generateGameQuestions(count) {
+            const shuffled = [...countries].sort(() => Math.random() - 0.5);
+            return shuffled.slice(0, count).map(country => {
+                const wrongOptions = countries
+                    .filter(c => c.id !== country.id)
+                    .sort(() => Math.random() - 0.5)
+                    .slice(0, 3);
+                
+                const options = [...wrongOptions, country].sort(() => Math.random() - 0.5);
+                
+                const types = ['flag-name', 'continent', 'capital'];
+                const type = types[Math.floor(Math.random() * types.length)];
+                
+                return {
+                    country,
+                    options,
+                    type
+                };
+            });
+        }
+
+        function renderGameProgress() {
+            const progress = document.getElementById('gameProgress');
+            progress.innerHTML = gameQuestions.map((_, index) => 
+                `<div class="progress-dot ${index < currentQuestionIndex ? 'answered' : ''} ${index === currentQuestionIndex ? 'current' : ''}"></div>`
+            ).join('');
+        }
+
+        function showQuestion() {
+            if (currentQuestionIndex >= gameQuestions.length) {
+                showGameResult();
+                return;
+            }
+            
+            const question = gameQuestions[currentQuestionIndex];
+            const questionFlag = document.getElementById('questionFlag');
+            const questionText = document.getElementById('questionText');
+            const optionsGrid = document.getElementById('optionsGrid');
+            
+            if (question.type === 'flag-name') {
+                questionFlag.textContent = question.country.flag;
+                questionFlag.style.fontSize = '80px';
+                questionText.textContent = '这是哪个国家的国旗？';
+                optionsGrid.innerHTML = question.options.map(option => 
+                    `<button class="option-btn" data-id="${option.id}">${option.name}</button>`
+                ).join('');
+                optionsGrid.querySelectorAll('.option-btn').forEach(btn => {
+                    btn.addEventListener('click', () => handleAnswer(btn, question.country.id));
+                });
+            } else if (question.type === 'capital') {
+                questionFlag.textContent = '🏙️';
+                questionFlag.style.fontSize = '80px';
+                questionText.innerHTML = `<span style="color: var(--primary); font-size: 32px;">${question.country.capital}</span><br>是哪个国家的首都？`;
+                optionsGrid.innerHTML = question.options.map(option => 
+                    `<button class="option-btn flag-only" data-id="${option.id}"><span class="option-flag-big">${option.flag}</span></button>`
+                ).join('');
+                optionsGrid.querySelectorAll('.option-btn').forEach(btn => {
+                    btn.addEventListener('click', () => handleAnswer(btn, question.country.id));
+                });
+            } else {
+                questionFlag.textContent = question.country.flag;
+                questionFlag.style.fontSize = '80px';
+                questionText.textContent = '这面国旗属于哪个大洲？';
+                const continents = ['asia', 'africa', 'europe', 'north-america', 'south-america', 'oceania'];
+                const correctContinent = question.country.continent;
+                const wrongContinents = continents.filter(c => c !== correctContinent).sort(() => Math.random() - 0.5).slice(0, 3);
+                const continentOptions = [...wrongContinents, correctContinent].sort(() => Math.random() - 0.5);
+                
+                optionsGrid.innerHTML = continentOptions.map(continent => 
+                    `<button class="option-btn continent-btn" data-continent="${continent}" data-id="${question.country.id}">
+                        <span class="option-flag">${getContinentEmoji(continent)}</span> ${continentNames[continent]}
+                    </button>`
+                ).join('');
+                
+                optionsGrid.querySelectorAll('.option-btn').forEach(btn => {
+                    btn.addEventListener('click', () => {
+                        const isCorrect = btn.dataset.continent === correctContinent;
+                        handleContinentAnswer(btn, isCorrect, correctContinent);
+                    });
+                });
+            }
+            
+            renderGameProgress();
+        }
+
+        function handleContinentAnswer(btn, isCorrect, correctContinent) {
+            document.querySelectorAll('.option-btn').forEach(b => {
+                b.disabled = true;
+                if (b.dataset.continent === correctContinent) {
+                    b.classList.add('correct');
+                }
+            });
+            
+            if (isCorrect) {
+                btn.classList.add('correct');
+                gameScore++;
+                correctAnswers++;
+            } else {
+                btn.classList.add('wrong');
+            }
+            
+            totalQuestions++;
+            localStorage.setItem('correctAnswers', correctAnswers);
+            localStorage.setItem('totalQuestions', totalQuestions);
+            
+            setTimeout(() => {
+                currentQuestionIndex++;
+                showQuestion();
+            }, 1000);
+        }
+
+        function handleAnswer(btn, correctId) {
+            const isCorrect = btn.dataset.id === correctId;
+            
+            document.querySelectorAll('.option-btn').forEach(b => {
+                b.disabled = true;
+                if (b.dataset.id === correctId) {
+                    b.classList.add('correct');
+                }
+            });
+            
+            if (isCorrect) {
+                btn.classList.add('correct');
+                gameScore++;
+                correctAnswers++;
+            } else {
+                btn.classList.add('wrong');
+            }
+            
+            totalQuestions++;
+            localStorage.setItem('correctAnswers', correctAnswers);
+            localStorage.setItem('totalQuestions', totalQuestions);
+            
+            setTimeout(() => {
+                currentQuestionIndex++;
+                showQuestion();
+            }, 1000);
+        }
+
+        function showGameResult() {
+            const overlay = document.getElementById('resultOverlay');
+            const resultIcon = document.getElementById('resultIcon');
+            const resultTitle = document.getElementById('resultTitle');
+            const resultStars = document.getElementById('resultStars');
+            
+            const percentage = gameScore / gameQuestions.length;
+            let earnedStars = Math.ceil(percentage * 3);
+            
+            if (percentage >= 0.9) {
+                resultIcon.textContent = '🎉';
+                resultTitle.textContent = '太棒了！';
+            } else if (percentage >= 0.6) {
+                resultIcon.textContent = '👏';
+                resultTitle.textContent = '做得好！';
+            } else {
+                resultIcon.textContent = '💪';
+                resultTitle.textContent = '继续加油！';
+                earnedStars = Math.max(1, earnedStars);
+            }
+            
+            resultStars.textContent = '⭐'.repeat(earnedStars);
+            
+            stars += earnedStars;
+            gamesPlayed++;
+            localStorage.setItem('stars', stars);
+            localStorage.setItem('gamesPlayed', gamesPlayed);
+            
+            updateStarsDisplay();
+            updateProfileStats();
+            
+            overlay.classList.add('show');
+        }
+
+        function renderLearnView() {
+            const learnContent = document.getElementById('learnContent');
+            
+            const continents = ['asia', 'africa', 'europe', 'north-america', 'south-america', 'oceania'];
+            
+            learnContent.innerHTML = continents.map(continent => {
+                const continentCountries = countries.filter(c => c.continent === continent);
+                return `
+                    <div class="learn-section">
+                        <h2 class="learn-title">
+                            ${getContinentEmoji(continent)} ${continentNames[continent]}
+                            <span style="font-size: 16px; color: var(--primary);">(${continentCountries.length}个国家)</span>
+                        </h2>
+                        <div class="countries-grid">
+                            ${continentCountries.map(country => `
+                                <div class="country-item" data-id="${country.id}">
+                                    <div class="country-item-flag">${country.flag}</div>
+                                    <div class="country-item-info">
+                                        <div class="country-item-name">${country.name}</div>
+                                        <div class="country-item-capital">首都: ${country.capital}</div>
+                                    </div>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                `;
+            }).join('');
+            
+            learnContent.querySelectorAll('.country-item').forEach(item => {
+                item.addEventListener('click', () => {
+                    const country = countries.find(c => c.id === item.dataset.id);
+                    if (country) {
+                        showCountryCard(country);
+                    }
+                });
+            });
+        }
+
+        function getContinentEmoji(continent) {
+            const emojis = {
+                'asia': '🌸',
+                'africa': '🦁',
+                'europe': '🏰',
+                'north-america': '🗽',
+                'south-america': '🌴',
+                'oceania': '🏝️'
+            };
+            return emojis[continent] || '🌍';
+        }
+
+        function updateStarsDisplay() {
+            document.getElementById('starCount').textContent = stars;
+        }
+
+        function updateProfileStats() {
+            document.getElementById('totalStars').textContent = stars;
+            document.getElementById('countriesLearned').textContent = countriesLearned.length;
+            document.getElementById('gamesPlayed').textContent = gamesPlayed;
+            
+            const rate = totalQuestions > 0 ? Math.round((correctAnswers / totalQuestions) * 100) : 0;
+            document.getElementById('correctRate').textContent = rate + '%';
+        }
+
+        function setupEventListeners() {
+            document.querySelectorAll('.nav-item').forEach(item => {
+                item.addEventListener('click', () => switchView(item.dataset.view));
+            });
+            
+            document.querySelectorAll('.mode-btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    document.querySelectorAll('.mode-btn').forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+                });
+            });
+            
+            document.querySelectorAll('.continent-btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    document.querySelectorAll('.continent-btn').forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+                    currentContinent = btn.dataset.continent;
+                    highlightContinent(currentContinent);
+                });
+            });
+            
+            document.getElementById('cardClose').addEventListener('click', hideCountryCard);
+            document.getElementById('overlay').addEventListener('click', hideCountryCard);
+            
+            document.getElementById('speakBtn').addEventListener('click', () => {
+                const countryName = document.getElementById('cardName').textContent;
+                speakCountryName(countryName);
+            });
+            
+            document.getElementById('zoomIn').addEventListener('click', () => {
+                mapScale = Math.min(3, mapScale * 1.2);
+                updateMapTransform();
+            });
+            
+            document.getElementById('zoomOut').addEventListener('click', () => {
+                mapScale = Math.max(0.5, mapScale / 1.2);
+                updateMapTransform();
+            });
+            
+            document.getElementById('zoomReset').addEventListener('click', () => {
+                mapScale = 1;
+                mapTranslate = { x: 0, y: 0 };
+                updateMapTransform();
+            });
+            
+            document.getElementById('resultBtn').addEventListener('click', () => {
+                document.getElementById('resultOverlay').classList.remove('show');
+                startNewGame();
+            });
+        }
+
+        init();
+    </script>
+</body>
+</html>
